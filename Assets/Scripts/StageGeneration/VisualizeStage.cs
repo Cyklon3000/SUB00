@@ -19,7 +19,7 @@ public class VisualizeStage : MonoBehaviour
     void Update()
     {
         layout = GetComponent<StageRoomLayout>();
-        rooms = layout.rooms;
+        rooms = layout.latestRooms;
         doorAmount = layout.doorAmounts;
     }
 

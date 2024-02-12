@@ -7,20 +7,16 @@ public class StageRoomLayout : MonoBehaviour
 {
     public int roomAmount = 9;
     [HideInInspector]
-    public Room[] rooms;
+    public Room[] latestRooms;
     [HideInInspector]
     public int[] doorAmounts;
 
-    private void Start()
-    {
-        InvokeRepeating("GenerateRoomLayout", 1f, 2f);
-    }
-
-    public void GenerateRoomLayout()
+    public Room[] GenerateRoomLayout()
     {
         Debug.Log("Generating new Layout");
-        rooms = new Room[roomAmount];
+
         // Instatiate all rooms
+        Room[] rooms = new Room[roomAmount];
         for (int i = 0; i <= 2; i++)
         {
             for (int j = 0; j <= 2; j++)
@@ -30,20 +26,9 @@ public class StageRoomLayout : MonoBehaviour
             }
         }
 
-        //foreach (Room room in rooms)
-        //{
-        //    Debug.Log(room.position);
-        //}
-
         // Add connections (walls if you so will) between rooms (NO DOORS YET!)
         foreach (Room room in rooms)
         {
-            // Debug.Log(room.position);
-            // Debug.Log(room.position + Vector2Int.up);
-            // Debug.Log(isInClamp(room.position + Vector2Int.up, 0, 2));
-            // Debug.Log("ID " + getID(room.position + Vector2Int.up));
-            // Debug.Log(rooms[getID(room.position + Vector2Int.up)].position);
-
             if (isInClamp(room.position + Vector2Int.up, 0, 2))
                 room.flanks.Add(rooms[getID(room.position + Vector2Int.up)]);
             if (isInClamp(room.position + Vector2Int.right, 0, 2))
@@ -69,6 +54,7 @@ public class StageRoomLayout : MonoBehaviour
         endRoom.roomLevel = 0;
 
         // Randomize room Levels
+        // ---------------------
         // Define remaining bronze rooms (start and end are already set)
         int bronzeRoomAmount = 2;
         while (bronzeRoomAmount < 5)
@@ -178,38 +164,14 @@ public class StageRoomLayout : MonoBehaviour
         }
 
         // Determine door amounts
-        doorAmounts = new int[3];
-        foreach (Room room in rooms)
-        {
-            for (int i = 0; i < 4; i++) // Check all door direction for door types
-            {
-                //Debug.Log("i: " + i);
-                //Debug.Log("int index: " + (int)room.doors[i, 1]);
-                if ((int) room.doors[i, 1] != -1)
-                    doorAmounts[(int)room.doors[i, 1]]++;
-            }
-        }
-        for (int i = 0; i < doorAmounts.Length; i++)
-        {
-            doorAmounts[i] /= 2;
-        }
+        doorAmounts = getDoorAmount(rooms);
 
-        // Distribute 2 silver key randomly across bronze only reachable bronze rooms
-        //foreach (Room r in rooms)
-        //{
-        //    Debug.Log("Room Pos: " + r.position + " Room Level: " + r.roomLevel + " isStart: " + r.isStartRoom + " isEnd: " + r.isEndRoom);
-        //}
-        
+        // Give silver keys to two random bronze rooms
         List<Room> reachableBronzeRooms = reachableRoomsByBronze(startRoom);
         shuffleList(reachableBronzeRooms);
-        //Debug.Log("Reachable Bronze: " + reachableBronzeRooms.Count);
-        //foreach (Room r in reachableBronzeRooms)
-        //{
-        //    Debug.Log(r.position);
-        //}
         for (int i = 0; i < 2; i++)
         {
-            reachableBronzeRooms[i].keys[1] = 1; // Give silver keys to bronze room
+            reachableBronzeRooms[i].keys[1] = 1;
         }
 
         // Distribute remaining keys for silver doors in silver rooms
@@ -218,11 +180,12 @@ public class StageRoomLayout : MonoBehaviour
         {
             silverRooms[i].keys[1] = 1;
         }
+
         // Put one gold key into one of the silver rooms
         silverRooms[(int)Random.Range(0, 2)].keys[2] = 1;
 
-        // IMPORTANT INFO
-        // rooms, doorAmounts
+        latestRooms = (Room[]) rooms.Clone();
+        return rooms;
     }
 
     private Vector2Int randomRangeVector2Int(int min, int max)
@@ -359,4 +322,27 @@ public class StageRoomLayout : MonoBehaviour
             return 3;
         return -1;
     }
+
+    public int[] getDoorAmount(Room[] rooms)
+    {
+        /*
+         Gets the amount of door pairs types given a array of rooms 
+         (returns array where doors[i] for i = 0, 1, 2 -> bronze, silver, gold)
+        */
+        doorAmounts = new int[3];
+        foreach (Room room in rooms)
+        {
+            for (int i = 0; i < 4; i++) // Check all door direction for door types
+            {
+                if ((int)room.doors[i, 1] != -1)
+                    doorAmounts[(int)room.doors[i, 1]]++;
+            }
+        }
+        for (int i = 0; i < doorAmounts.Length; i++)
+        {
+            doorAmounts[i] /= 2; // Each door has two parts
+        }
+        return doorAmounts;
+    }
+
 }
