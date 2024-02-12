@@ -18,17 +18,14 @@ public class VisualizeStage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (layout == null || rooms == null || doorAmount == null)
-        {
-            layout = GetComponent<StageRoomLayout>();
-            rooms = layout.rooms;
-            doorAmount = layout.doorAmounts;
-        }
+        layout = GetComponent<StageRoomLayout>();
+        rooms = layout.rooms;
+        doorAmount = layout.doorAmounts;
     }
 
     private void OnDrawGizmos()
     {
-        foreach (Room room in rooms)
+        foreach (Room room in this.rooms)
         {
             if (room.roomLevel == 0)
                 Gizmos.color = new Color(1f, 0.25f, 0f);

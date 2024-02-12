@@ -13,12 +13,13 @@ public class StageRoomLayout : MonoBehaviour
 
     private void Start()
     {
-        GenerateRoomLayout();
+        InvokeRepeating("GenerateRoomLayout", 1f, 2f);
     }
 
     public void GenerateRoomLayout()
     {
-        rooms = new Room[9];
+        Debug.Log("Generating new Layout");
+        rooms = new Room[roomAmount];
         // Instatiate all rooms
         for (int i = 0; i <= 2; i++)
         {
@@ -55,9 +56,13 @@ public class StageRoomLayout : MonoBehaviour
 
         // Randomize start and end room
         int startRoomID = randomInt(0, roomAmount);
-        int endRoomID = (startRoomID + Mathf.FloorToInt(Random.Range(0.0f, roomAmount - 1))) % roomAmount;
+        int endRoomID = startRoomID;
+        while(startRoomID == endRoomID)
+            endRoomID = randomInt(0, roomAmount);
         Room startRoom = rooms[startRoomID];
         Room endRoom = rooms[endRoomID];
+
+        // Setup start and end room
         startRoom.isStartRoom = true;
         endRoom.isEndRoom = true;
         startRoom.roomLevel = 0;
@@ -197,7 +202,7 @@ public class StageRoomLayout : MonoBehaviour
         
         List<Room> reachableBronzeRooms = reachableRoomsByBronze(startRoom);
         shuffleList(reachableBronzeRooms);
-        Debug.Log("Reachable Bronze: " + reachableBronzeRooms.Count);
+        //Debug.Log("Reachable Bronze: " + reachableBronzeRooms.Count);
         //foreach (Room r in reachableBronzeRooms)
         //{
         //    Debug.Log(r.position);
@@ -286,12 +291,12 @@ public class StageRoomLayout : MonoBehaviour
         int currentRoom = 0;
         while (currentRoom < reachableBronzeRooms.Count) // Loop through all rooms connected to startRoom
         {
-            foreach (Room r in reachableBronzeRooms)
-            {
-                if (r.getID() == currentRoom)
-                    Debug.LogWarning("Current: " + currentRoom);
-                Debug.Log("rID: " + r.getID() + " rPos: " + r.position + " rLevel: " + r.roomLevel + " rFlanks " + r.flanks.Count);
-            }
+            //foreach (Room r in reachableBronzeRooms)
+            //{
+            //    if (r.getID() == currentRoom)
+            //        Debug.LogWarning("Current: " + currentRoom);
+            //    Debug.Log("rID: " + r.getID() + " rPos: " + r.position + " rLevel: " + r.roomLevel + " rFlanks " + r.flanks.Count);
+            //}
             
             Room room = reachableBronzeRooms[currentRoom];
 
