@@ -5,13 +5,17 @@ using UnityEngine;
 public class RoomGenerator : MonoBehaviour
 {
     public Room r;
+    public int roomID;
     public GameObject floor;
     public GameObject[] walls = new GameObject[4];
     public GameObject[] doors = new GameObject[4];
     
     // Start is called before the first frame update
-    void Awake()
+    public void Setup(Room roomBlueprint)
     {
+        r = roomBlueprint;
+        roomID = r.getID();
+
         // Get references
         floor = transform.Find("Floor").gameObject;
         Transform wallParent = transform.Find("Walls");
@@ -24,17 +28,40 @@ public class RoomGenerator : MonoBehaviour
         }
 
         // Colorcode the Room Elements according to level
-        floor.GetComponent<SpriteRenderer>().color = getLevelColor(r.roomLevel);
+        //floor.GetComponent<SpriteRenderer>().color = getLevelColor(r.roomLevel);
         for (int i = 0; i < 4; i++)
         {
-            doors[i].GetComponent<SpriteRenderer>().color = getLevelColor((int) r.doors[i, 1]);
+            doors[i].GetComponent<SpriteRenderer>().color = brightenColor(getLevelColor((int) r.doors[i, 1]));
+        }
+
+        // Assign keys
+        RoomKeyManager keyManager = GetComponent<RoomKeyManager>();
+        for (int i = 0;i < 3; i++)
+        {
+            keyManager.keys[i] = r.keys[i];
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LinkDoors(GameObject[] rooms)
     {
-        
+        // Link doors
+        for (int i = 0; i < 4; i++)
+        {
+            if ((int)r.doors[i, 1] == -1) // Skip direction if no door there
+                continue;
+            int linkedRoomID = ((Room)r.doors[i, 0]).getID();
+            RoomGenerator linkedRoom = rooms[linkedRoomID].GetComponent<RoomGenerator>();
+            doors[i].GetComponent<DoorOperation>().counterPart = linkedRoom.doors[(i + 2) % 4];
+        }
+    }
+
+    private Color brightenColor(Color color)
+    {
+        float brighten(float x)
+        {
+            return Mathf.Clamp01(Mathf.Sqrt(x + 0.1f));
+        }
+        return new Color(brighten(color.r), brighten(color.g), brighten(color.b), color.a);
     }
 
     private Color getLevelColor(int level)
@@ -42,12 +69,12 @@ public class RoomGenerator : MonoBehaviour
         switch (level)
         {
             case 0:
-                return Gizmos.color = new Color(1f, 0.25f, 0f);
+                return Gizmos.color = new Color(145f/255, 89f/255, 42f/255);
             case 1:
                 return Color.gray;
             case 2:
                 return Color.yellow;
         }
-        return Color.white;
+        return new Color(0f, 0f, 0f, 0f);
     }
 }

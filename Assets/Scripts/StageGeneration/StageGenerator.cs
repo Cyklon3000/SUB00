@@ -20,7 +20,12 @@ public class StageGenerator : MonoBehaviour
             Vector3 roomPosition = new Vector3(roomBlueprint.position.x * 10 * 2, roomBlueprint.position.y * 10 * 2, 0f);
             rooms[roomBlueprint.getID()] = Instantiate(roomPrefab, roomPosition, transform.rotation);
             RoomGenerator room = rooms[roomBlueprint.getID()].GetComponent<RoomGenerator>();
-            room.r = roomBlueprint;
+            room.Setup(roomBlueprint);
+        }
+        foreach (GameObject r in rooms)
+        {
+            RoomGenerator room = r.GetComponent<RoomGenerator>();
+            room.LinkDoors(rooms);
         }
     }
 

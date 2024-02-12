@@ -47,3 +47,6 @@ TagManager:
   - name: Room_Walls
     uniqueID: 1196158767
     locked: 0
+  - name: Player
+    uniqueID: 388547353
+    locked: 0
