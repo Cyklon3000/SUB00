@@ -16,6 +16,11 @@ public class MonsterSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("getTable", 0.5f);
+    }
+
+    private void getTable()
+    {
         roomLevel = GetComponent<RoomGenerator>().r.roomLevel;
         monsterTable = GameObject.Find("StageManager").GetComponent<RoomSettings>().roomMonsters[roomLevel];
     }

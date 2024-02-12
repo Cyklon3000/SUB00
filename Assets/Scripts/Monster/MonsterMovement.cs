@@ -23,8 +23,12 @@ public class MonsterMovement : MonoBehaviour
     [SerializeField] private float stretchSpeed;
     [SerializeField] private bool isDashing;
     [SerializeField] private float dashForce;
+    [SerializeField] private float linearDrag;
     [SerializeField] private float dashCooldown;
     private float lastDash;
+
+    [HideInInspector]
+    public int orientation = -1;
 
     private Transform appearance;
 
@@ -34,6 +38,7 @@ public class MonsterMovement : MonoBehaviour
         player = GameObject.Find("Player");
 
         rigidbody2D = GetComponent<Rigidbody2D>();
+        appearance = transform.Find("Appearance");
 
         rigidbody2D.angularDrag = 0.0f;
         rigidbody2D.gravityScale = 0.0f;
@@ -42,7 +47,7 @@ public class MonsterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        steeringVector = (Vector2)(transform.position - player.transform.position).normalized; // Player direction
+        steeringVector = (Vector2)(player.transform.position - transform.position).normalized; // Player direction
 
         // Stop movement when close enough of far enough
         if (isMovingTowardsPlayer && (transform.position - player.transform.position).magnitude < range)
@@ -60,14 +65,39 @@ public class MonsterMovement : MonoBehaviour
         if (isJumping)
         {
             float yShift = jumpHeight * Mathf.Abs(Mathf.Sin(Time.time * jumpSpeed * Mathf.PI));
-            appearance.transform.position = (Vector3) Vector2.up * yShift;
+            appearance.transform.localPosition = (Vector3) Vector2.up * yShift;
         }
 
         // Stretching (scale) sin
         if (isStretchMoving)
         {
-            float stretch = stretchFaktor * Mathf.Sin(Time.time * stretchSpeed * 2 * Mathf.PI);
-            appearance.transform.localScale = Vector3.one * (1 + stretch);
+            float stretch = (stretchFaktor - 1) * (Mathf.Sin(Time.time * stretchSpeed * 2 * Mathf.PI) + 1) / 2;
+            appearance.transform.localScale = Vector3.one + Vector3.one * stretch;
+        }
+
+        // Set view orientation
+        if (isMovingTowardsPlayer || isFleeingFromPlayer)
+        {
+            if (lastDirection.y > Mathf.Abs(lastDirection.x)) // up
+            {
+                orientation = 0;
+                //Debug.Log("UP");
+            }
+            if (lastDirection.x > Mathf.Abs(lastDirection.y)) // right
+            {
+                orientation = 1;
+                //Debug.Log("RIGHT");
+            }
+            if (lastDirection.y < -Mathf.Abs(lastDirection.x)) // down
+            {
+                orientation = 2;
+                //Debug.Log("DOWN");
+            }
+            if (lastDirection.x < -Mathf.Abs(lastDirection.y)) // left
+            {
+                orientation = 3;
+                //Debug.Log("LEFT");
+            }
         }
     }
 
@@ -81,7 +111,11 @@ public class MonsterMovement : MonoBehaviour
 
         // Dash movement towards player
         if (!isDashing)
+        {
+            rigidbody2D.drag = 0;
             return;
+        }
+        rigidbody2D.drag = linearDrag;
         if (Time.time - lastDash <= dashCooldown)
             return;
         lastDash = Time.time;
