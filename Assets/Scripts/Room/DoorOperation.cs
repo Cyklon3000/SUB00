@@ -8,15 +8,19 @@ public class DoorOperation : MonoBehaviour
     private bool isUnlocked = false;
     private Transform player;
     private Loader loader;
+    private GameObject room;
     private int roomID;
     private float interactionDistance = 1.5f;
+    MonsterSpawner monsterSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
         loader = GameObject.Find("StageManager").GetComponent<Loader>();
-        roomID = transform.parent.parent.GetComponent<RoomGenerator>().roomID;
+        room = transform.parent.parent.gameObject;
+        monsterSpawner = room.GetComponent<MonsterSpawner>();
+        roomID = room.GetComponent<RoomGenerator>().roomID;
     }
 
     // Update is called once per frame
@@ -24,6 +28,9 @@ public class DoorOperation : MonoBehaviour
     {
         if (loader.currentRoomID == roomID)
         {
+            if (monsterSpawner.isCharged || monsterSpawner.isActive)
+                return;
+            
             float playerDistance = (transform.position - player.position).magnitude;
             if (playerDistance < interactionDistance)
             {
@@ -53,6 +60,9 @@ public class DoorOperation : MonoBehaviour
 
     public void teleportPlayer()
     {
+        // Attempt spawning monsters
+        monsterSpawner.spawnMonsters();
+
         Vector2 roomCenterDirection = (transform.parent.parent.position - transform.position).normalized;
         Vector2 targetPosition = (Vector2)transform.position + roomCenterDirection * 1.25f;
         player.transform.position = targetPosition;
