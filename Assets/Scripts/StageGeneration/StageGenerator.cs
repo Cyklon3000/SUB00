@@ -5,7 +5,7 @@ using UnityEngine;
 public class StageGenerator : MonoBehaviour
 {
     private Room[] roomLayout;
-    private GameObject[] rooms = new GameObject[9];
+    public GameObject[] rooms = new GameObject[9];
     [SerializeField]
     private GameObject roomPrefab;
 

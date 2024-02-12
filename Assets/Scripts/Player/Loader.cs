@@ -18,17 +18,22 @@ public class Loader : MonoBehaviour
     void Update()
     {
         // Get current room
+        currentRoomID = getRoomIDClosestToPosition(player.position);
+    }
+
+    public int getRoomIDClosestToPosition(Vector3 position)
+    {
         int closestRoomID = 0;
         float shortestRoomDistanceSqr = Mathf.Infinity;
         foreach (GameObject room in GameObject.FindGameObjectsWithTag("Room"))
         {
-            float distanceSqr = (player.position - room.transform.position).sqrMagnitude;
+            float distanceSqr = (position - room.transform.position).sqrMagnitude;
             if (distanceSqr < shortestRoomDistanceSqr)
             {
                 shortestRoomDistanceSqr = distanceSqr;
                 closestRoomID = room.GetComponent<RoomGenerator>().roomID;
             }
         }
-        currentRoomID = closestRoomID;
+        return closestRoomID;
     }
 }
