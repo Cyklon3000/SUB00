@@ -28,7 +28,7 @@ public class DoorOperation : MonoBehaviour
     {
         if (loader.currentRoomID == roomID)
         {
-            if (monsterSpawner.isCharged || monsterSpawner.isActive)
+            if (monsterSpawner.isActive)
                 return;
             
             float playerDistance = (transform.position - player.position).magnitude;

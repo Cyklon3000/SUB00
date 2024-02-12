@@ -21,8 +21,8 @@ public class MonsterSpawner : MonoBehaviour
 
     private void getTable()
     {
-        roomLevel = GetComponent<RoomGenerator>().r.roomLevel;
-        monsterTable = GameObject.Find("StageManager").GetComponent<RoomSettings>().roomMonsters[roomLevel];
+        roomLevel = GetComponent<RoomGenerator>().roomLevel;
+        monsterTable = GameObject.Find("StageManager").GetComponent<MonsterTable>();
     }
 
     public void spawnMonsters()
@@ -32,11 +32,17 @@ public class MonsterSpawner : MonoBehaviour
 
         isCharged = false;
         isActive = true;
-        int[] monsterAmounts = monsterTable.getRandomAmounts();
+        int[] monsterAmounts = monsterTable.getMonsterAmounts(2, roomLevel);
         monstersLeft = (int[]) monsterAmounts.Clone();
 
-        Debug.Log("Spawn Monsters!");
-        Debug.Log($"Type 0: {monsterAmounts[0]}; Type 1: {monsterAmounts[1]}; Type 2: {monsterAmounts[2]}");
+        for (int i = 0; i < monsterAmounts.Length; i++)
+        {
+            for (int j = 0; j < monsterAmounts[i]; j++)
+            {
+                Vector3 randomPosition = transform.position + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f);
+                monsterTable.instantiateMonster(2, i, randomPosition);
+            }
+        }
     }
 
     public bool isLastMonsterKilled(int monsterType)

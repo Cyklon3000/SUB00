@@ -5,26 +5,26 @@ using UnityEngine;
 public class MonsterMovement : MonoBehaviour
 {
     private GameObject player;
-    [SerializeField] private bool isMovingTowardsPlayer;
-    [SerializeField] private bool isFleeingFromPlayer;
-    [SerializeField] private float maxSpeed;
+    [SerializeField] public bool isMovingTowardsPlayer;
+    [SerializeField] public bool isFleeingFromPlayer;
+    [SerializeField] public float maxSpeed;
     private float currentSpeed = 0.0f;
-    [SerializeField] private float timeToAccelerate;
-    [SerializeField] private float timeToDecelerate;
+    [SerializeField] public float timeToAccelerate;
+    [SerializeField] public float timeToDecelerate;
     private Vector2 steeringVector = new Vector2(0.0f, 0.0f);
     private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
-    [SerializeField] private float range;
+    [SerializeField] public float range;
     private new Rigidbody2D rigidbody2D;
-    [SerializeField] private bool isJumping;
-    [SerializeField] private float jumpHeight;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private bool isStretchMoving;
-    [SerializeField] private float stretchFaktor;
-    [SerializeField] private float stretchSpeed;
-    [SerializeField] private bool isDashing;
-    [SerializeField] private float dashForce;
-    [SerializeField] private float linearDrag;
-    [SerializeField] private float dashCooldown;
+    [SerializeField] public bool isJumping;
+    [SerializeField] public float jumpHeight;
+    [SerializeField] public float jumpSpeed;
+    [SerializeField] public bool isStretchMoving;
+    [SerializeField] public float stretchFaktor;
+    [SerializeField] public float stretchSpeed;
+    [SerializeField] public bool isDashing;
+    [SerializeField] public float dashForce;
+    [SerializeField] public float linearDrag;
+    [SerializeField] public float dashCooldown;
     private float lastDash;
 
     [HideInInspector]

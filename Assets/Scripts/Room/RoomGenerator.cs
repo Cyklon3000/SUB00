@@ -6,6 +6,7 @@ public class RoomGenerator : MonoBehaviour
 {
     public Room r;
     public int roomID;
+    public int roomLevel;
     public GameObject floor;
     public GameObject[] walls = new GameObject[4];
     public GameObject[] doors = new GameObject[4];
@@ -15,6 +16,7 @@ public class RoomGenerator : MonoBehaviour
     {
         r = roomBlueprint;
         roomID = r.getID();
+        roomLevel = r.roomLevel;
 
         // Get references
         floor = transform.Find("Floor").gameObject;
