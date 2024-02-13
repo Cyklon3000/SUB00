@@ -33,7 +33,7 @@ public class MonsterMovement : MonoBehaviour
     private Transform appearance;
 
     // Start is called before the first frame update
-    void Start()
+    public void Setup()
     {
         player = GameObject.Find("Player");
 
@@ -105,7 +105,10 @@ public class MonsterMovement : MonoBehaviour
     {
         // Regular movement
         if (isMovingTowardsPlayer)
+        {
+            Debug.Log(rigidbody2D);
             rigidbody2D.MovePosition(rigidbody2D.position + (lastDirection * currentSpeed * Time.fixedDeltaTime));
+        }
         else if (isFleeingFromPlayer)
             rigidbody2D.MovePosition(rigidbody2D.position - (lastDirection * currentSpeed * Time.fixedDeltaTime));
 

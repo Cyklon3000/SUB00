@@ -6,15 +6,9 @@ public class RoomKeyManager : MonoBehaviour
 {
     public int[] keys = new int[3];
 
-    // Start is called before the first frame update
-    void Start()
+    public int[] getKeysToDrop()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // TO BE CHANGED! NO MORE KEYS THAN DOORS TO OPEN!
+        return keys;
     }
 }

@@ -45,6 +45,11 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
+    public void createdMonster(int monsterType)
+    {
+        monstersLeft[monsterType]++;
+    }
+
     public bool isLastMonsterKilled(int monsterType)
     {
         monstersLeft[monsterType]--;
