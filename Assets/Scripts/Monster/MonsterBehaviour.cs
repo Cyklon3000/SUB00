@@ -82,7 +82,7 @@ public class MonsterBehaviour : MonoBehaviour
             }
         } 
 
-        if (isBurstingOnRange)
+        if (isBurstingOnRange && false)
         {
             if ((transform.position - player.position + (Vector3) (0.5f*Vector2.one)).magnitude >= movement.range) goto FailedBursting;
             // Is in range to explode -> Die, damage Player
@@ -152,20 +152,24 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isBurstingOnRange) goto FailedBursting;
-        if (!collision.gameObject.name.Equals("Player")) goto FailedBursting;
-            // Is in range to explode -> Die, damage Player
-            health = 0;
-            Dying(2.5f);
-            LastMonsterCheck();
-            player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
-            GetComponent<CircleCollider2D>().enabled = false;
-        FailedBursting:
-
         if (!isPassthroughDamage) return;
         if (!collision.gameObject.name.Equals("Player")) return;
         player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!isBurstingOnRange) return;
+        if (!collision.gameObject.name.Equals("Player")) return;
+        if ((transform.position - collision.transform.position).magnitude >= movement.range) return;
+        // Is in range to explode -> Die, damage Player
+        health = 0;
+        Dying(2.5f);
+        LastMonsterCheck();
+        player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
+        GetComponent<CircleCollider2D>().enabled = false;
+    }
+
 
     public void takeDamage(float damage)
     {

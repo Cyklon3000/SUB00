@@ -100,7 +100,7 @@ public class MonsterTable : MonoBehaviour
             case 0: // Pufferfish
                 monster = Instantiate(monsterBase, position, Quaternion.Euler(0f, 0f, 0f));
                 declareMonsterValues(monster,
-                    true, false, 1.5f, 1.0f, 4f, 0.6f, true, 0.4f, 2.5f, false, 1.4f, 0.5f, false, 1300.0f, 3.5f, 2.5f,
+                    true, false, 2.0f, 1.0f, 4f, 0.4f, true, 0.4f, 2.5f, false, 1.4f, 0.5f, false, 1300.0f, 3.5f, 2.5f,
                     0, true, false, 0.6f, null, false, 0.5f, null, false, false, 0.35f, false, 0.75f, 8, 15.0f, 30.0f, 1, appearances[0]);
                 break;
             case 1: // Blobfish
