@@ -101,19 +101,19 @@ public class MonsterTable : MonoBehaviour
                 monster = Instantiate(monsterBase, position, Quaternion.Euler(0f, 0f, 0f));
                 declareMonsterValues(monster,
                     true, false, 2.0f, 1.0f, 4f, 0.4f, true, 0.4f, 2.5f, false, 1.4f, 0.5f, false, 1300.0f, 3.5f, 2.5f,
-                    0, true, false, 0.6f, null, false, 0.5f, null, false, false, 0.35f, false, 0.75f, 8, 15.0f, 30.0f, 1, appearances[0]);
+                    0, true, false, 0.6f, null, false, 0.5f, null, false, false, 0.35f, false, 0.75f, 8, 10.0f, 20.0f, 1, appearances[0]);
                 break;
             case 1: // Blobfish
                 monster = Instantiate(monsterBase, position, Quaternion.Euler(0f, 0f, 0f));
                 declareMonsterValues(monster,
                     false, true, 3.0f, 1.0f, 0.5f, 6.5f, false, 0.4f, 2.5f, true, 1.2f, 0.25f, false, 1300.0f, 3.5f, 2.5f,
-                    1, false, true, 0.6f, bubblePrefab, false, 0.5f, null, false, false, 0.35f, false, 0.75f, 8, 25.0f, 65.0f, 2, appearances[1]);
+                    1, false, true, 2f, bubblePrefab, false, 0.5f, null, false, false, 0.35f, false, 0.75f, 8, 15.0f, 10.0f, 2, appearances[1]);
                 break;
             case 2: // Giant glow squid
                 monster = Instantiate(monsterBase, position, Quaternion.Euler(0f, 0f, 0f));
                 declareMonsterValues(monster,
-                    false, false, 1.5f, 1.0f, 0.1f, 10.0f, false, 0.4f, 2.5f, false, 1.4f, 0.5f, false, 1300.0f, 3.5f, 2.5f,
-                    2, false, false, 0.6f, null, true, 0.75f, tentaclePrefab, false, false, 0.35f, false, 0.75f, 8, 45.0f, 300.0f, 25, appearances[2]);
+                    true, false, 3.0f, 20.0f, 0.1f, 3.5f, false, 0.4f, 2.5f, true, 1.15f, 0.75f, false, 1300.0f, 3.5f, 2.5f,
+                    2, false, false, 0.6f, null, true, 0.75f, tentaclePrefab, false, false, 0.35f, false, 0.75f, 8, 30.0f, 150.0f, 25, appearances[2]);
                 break;
             }
             break; 

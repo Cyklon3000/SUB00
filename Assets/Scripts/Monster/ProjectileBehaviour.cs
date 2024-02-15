@@ -8,7 +8,7 @@ public class ProjectileBehaviour : MonoBehaviour
     public bool isMonster;
 
     public Vector2 direction;
-    private float speed = 20;
+    private float speed = 5f;
     private float decelerationSpeed = 1f;
     private Rigidbody2D rb;
 
@@ -33,13 +33,13 @@ public class ProjectileBehaviour : MonoBehaviour
         if (direction == null) return;
         if (rb == null) rb = GetComponent<Rigidbody2D>();
 
-        rb.MovePosition(direction * speed * Time.fixedDeltaTime);
+        rb.MovePosition((Vector2) transform.position + direction * speed * Time.fixedDeltaTime);
     }
 
     public void Shoot(Vector3 direction)
     {
         this.direction = direction;
-        float zRotation = GetRotationFromVector(this.direction);
+        float zRotation = GetRotationFromVector(direction);
         transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
     }
 
@@ -50,7 +50,7 @@ public class ProjectileBehaviour : MonoBehaviour
         return angleDegrees;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name.StartsWith("Wall"))
         {
@@ -61,5 +61,7 @@ public class ProjectileBehaviour : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerBehaviour>().TakeDamage(damage);
         }
+        else return;
+        Destroy(gameObject);
     }
 }

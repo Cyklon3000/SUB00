@@ -76,29 +76,8 @@ public class MonsterMovement : MonoBehaviour
         }
 
         // Set view orientation
-        if (isMovingTowardsPlayer || isFleeingFromPlayer)
-        {
-            if (lastDirection.y > Mathf.Abs(lastDirection.x)) // up
-            {
-                orientation = 0;
-                //Debug.Log("UP");
-            }
-            if (lastDirection.x > Mathf.Abs(lastDirection.y)) // right
-            {
-                orientation = 1;
-                //Debug.Log("RIGHT");
-            }
-            if (lastDirection.y < -Mathf.Abs(lastDirection.x)) // down
-            {
-                orientation = 2;
-                //Debug.Log("DOWN");
-            }
-            if (lastDirection.x < -Mathf.Abs(lastDirection.y)) // left
-            {
-                orientation = 3;
-                //Debug.Log("LEFT");
-            }
-        }
+        float zRotation = GetRotationFromVector(player.transform.position - transform.position) + 90f;
+        appearance.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
     }
 
     void FixedUpdate()
@@ -106,7 +85,6 @@ public class MonsterMovement : MonoBehaviour
         // Regular movement
         if (isMovingTowardsPlayer)
         {
-            Debug.Log(rigidbody2D);
             rigidbody2D.MovePosition(rigidbody2D.position + (lastDirection * currentSpeed * Time.fixedDeltaTime));
         }
         else if (isFleeingFromPlayer)
@@ -123,5 +101,12 @@ public class MonsterMovement : MonoBehaviour
             return;
         lastDash = Time.time;
         rigidbody2D.AddForce(steeringVector * dashForce);
+    }
+
+    private float GetRotationFromVector(Vector2 direction)
+    {
+        float angleRadians = Mathf.Atan2(direction.y, direction.x);
+        float angleDegrees = angleRadians * Mathf.Rad2Deg;
+        return angleDegrees;
     }
 }

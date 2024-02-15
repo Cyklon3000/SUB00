@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterBehaviour : MonoBehaviour
@@ -41,6 +42,10 @@ public class MonsterBehaviour : MonoBehaviour
     private MonsterMovement movement;
     private SpriteRenderer look;
 
+    private Color damageIndicationColor = new Color(1f, 0.5f, 0.5f);
+    private float damageIndicationStrength = 0f;
+    private float damageIndicationDuration = 0.1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,7 +65,8 @@ public class MonsterBehaviour : MonoBehaviour
         if (!isStabbing) return;
         stabber = Instantiate(stabbingPrefab);
         stabber.transform.parent = transform;
-        stabber.transform.localPosition = new Vector3(0.0f, (monsterType == 2) ? -0.3f : -0.1f, 0.0f);
+        //stabber.transform.localPosition = new Vector3(0.0f, (monsterType == 2) ? -0.3f : -0.1f, 0.0f);
+        stabber.transform.localPosition = Vector3.zero;
         stabber.GetComponent<StabberBehaviour>().damage = damage;
     }
 
@@ -80,25 +86,19 @@ public class MonsterBehaviour : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-        } 
-
-        if (isBurstingOnRange && false)
-        {
-            if ((transform.position - player.position + (Vector3) (0.5f*Vector2.one)).magnitude >= movement.range) goto FailedBursting;
-            // Is in range to explode -> Die, damage Player
-            health = 0;
-            Dying(2.5f);
-            LastMonsterCheck();
-            player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
-            GetComponent<CircleCollider2D>().enabled = false;
         }
-        FailedBursting:
+
+        if (damageIndicationStrength > 0)
+        {
+            damageIndicationStrength = Mathf.Clamp01(damageIndicationStrength - Time.deltaTime / damageIndicationDuration);
+            look.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, damageIndicationColor, damageIndicationStrength);
+        }
 
         if (isShootingProjectile)
         {
             if (Time.time - lastShot < shootingCooldown) goto FailedShooting;
             lastShot  = Time.time;
-            ProjectileBehaviour projectile = Instantiate(projectilePrefab).GetComponent<ProjectileBehaviour>();
+            ProjectileBehaviour projectile = Instantiate(projectilePrefab, transform.position, transform.rotation).GetComponent<ProjectileBehaviour>();
             projectile.damage = damage;
             projectile.isMonster = projectilePrefab.name.Equals("Goo");
             Vector3 playerDirection = (player.position - transform.position).normalized;
@@ -165,6 +165,7 @@ public class MonsterBehaviour : MonoBehaviour
         // Is in range to explode -> Die, damage Player
         health = 0;
         Dying(2.5f);
+        SpawnReward(reward);
         LastMonsterCheck();
         player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
         GetComponent<CircleCollider2D>().enabled = false;
@@ -173,15 +174,17 @@ public class MonsterBehaviour : MonoBehaviour
 
     public void takeDamage(float damage)
     {
+        if (health <= 0) return;
+        Debug.Log($"Actually took damage {damage}?");
         health -= damage;
         DamageIndication();
 
-        if (health < 0)
+        if (health <= 0)
         {
             Dying(0.0f);
             LastMonsterCheck();
+            SpawnReward(reward);
         }
-        SpawnReward(reward);
     }
 
     private void LastMonsterCheck()
@@ -195,15 +198,15 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void SpawnKeys(int[] keyAmounts)
     {
-        for (int i = 0; i < keyAmounts.Length; i++)
-        {
-            // Spawn key items
-        }
+        Item.SpawnItems("BronzeKey", keyAmounts[0], transform.position);
+        Item.SpawnItems("SilverKey", keyAmounts[1], transform.position);
+        Item.SpawnItems("GoldKey", keyAmounts[2], transform.position);
     }
 
     private void SpawnReward(int amount)
     {
-        // Spawn scrap in item packages
+        Debug.Log($"Spawn reward: {amount}");
+        Item.SpawnItems("Currency", amount, transform.position);
     }
 
     private void Dying(float scaleTargetFaktor)
@@ -218,6 +221,7 @@ public class MonsterBehaviour : MonoBehaviour
     private void DamageIndication()
     {
         // Red glow or something
+        damageIndicationStrength = 1f;
     }
 
     private Vector2 GetRandomUnitVector2D()

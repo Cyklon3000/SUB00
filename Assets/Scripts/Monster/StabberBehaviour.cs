@@ -5,11 +5,13 @@ using UnityEngine;
 public class StabberBehaviour : MonoBehaviour
 {
     public float damage;
-    private float stabDuration = 0.33f;
+    private float stabDuration = 0.5f;
     private float stabIntensity = 2.5f;
     private float rotationSpeed = 0.05f;
 
     private float currentStabProgress = 1f;
+
+    float tempMaxSize = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +24,7 @@ public class StabberBehaviour : MonoBehaviour
     {
         currentStabProgress += Time.deltaTime / stabDuration;
 
-        transform.localScale = 0.5f*Vector3.one + Vector3.one * stabIntensity * sizeCurve(currentStabProgress);
+        transform.localScale = Vector3.one + Vector3.one * stabIntensity * sizeCurve(currentStabProgress) * tempMaxSize;
         transform.localEulerAngles += new Vector3(0f, 0f, Time.deltaTime * rotationSpeed * 360f);
     }
 
@@ -34,11 +36,16 @@ public class StabberBehaviour : MonoBehaviour
     public void Stab()
     {
         currentStabProgress = 0f;
+        tempMaxSize = 1f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.name.Equals("Player")) return;
             collision.gameObject.GetComponent<PlayerBehaviour>().TakeDamage(damage);
+        tempMaxSize = sizeCurve(currentStabProgress);
+        currentStabProgress = 0.5f;
+
+
     }
 }

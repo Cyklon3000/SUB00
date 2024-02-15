@@ -20,7 +20,7 @@ TagManager:
   - Monster
   - Stage
   - Projectile
-  - 
+  - Item
   - 
   - 
   - 
@@ -54,4 +54,7 @@ TagManager:
     locked: 0
   - name: Monster
     uniqueID: 1626361753
+    locked: 0
+  - name: Item
+    uniqueID: 1039862019
     locked: 0
