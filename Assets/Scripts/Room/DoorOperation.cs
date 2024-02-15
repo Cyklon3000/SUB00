@@ -41,18 +41,24 @@ public class DoorOperation : MonoBehaviour
 
     private void interactionCheck()
     {
-        Debug.Log("Awaiting E...");
+        //Debug.Log("Awaiting E...");
         if (!Input.GetKeyUp(KeyCode.E))
             return;
         if (!isUnlocked)
         {
             // Check if enough keys of type collected
-            
-            // Open door and counterpart
-            isUnlocked = true;
-            counterPart.GetComponent<DoorOperation>().isUnlocked = true;
-
-            // Signal Error otherwise
+            string keyName = Inventory.IDtoItemName(0);
+            if (player.GetComponent<Inventory>().payItems(keyName, 1))
+            {
+                // Open door and counterpart
+                isUnlocked = true;
+                counterPart.GetComponent<DoorOperation>().isUnlocked = true;
+            }
+            else
+            {
+                // Signal Error otherwise
+                Debug.Log("No fitting key!");
+            }
             return;
         }
         counterPart.GetComponent<DoorOperation>().teleportPlayer();

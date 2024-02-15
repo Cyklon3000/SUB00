@@ -8,15 +8,9 @@ public class Weapon : MonoBehaviour
     private Dictionary<string, WeaponStats> weaponSettings = new Dictionary<string, WeaponStats>();
     private GameObject currentWeapon;
     private WeaponStats currentWeaponSetting;
-
-    // Weapon modifiers
-    public float rangeMultiplier = 1f;
-    public float widthMultiplier = 1f;
-    public float damageMultiplier = 1f;
-    public float speedMultiplier = 1f;
-
     
-    private float lastTick = 0;
+    private float lastTick = 0f;
+    private float lastNapalmTick = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +20,14 @@ public class Weapon : MonoBehaviour
             Transform child = transform.GetChild(i);
             weapons[child.name] = child.gameObject;
             weaponSettings[child.name] = child.GetComponent<WeaponStats>();
+            weaponSettings[child.name].Disable();
         }
 
-        currentWeapon = weapons["GasTorch"];
-        currentWeaponSetting = weaponSettings[currentWeapon.name];
-        currentWeaponSetting.Enable();
-        UpdateWeaponSettings();
+        SwitchToWeapon("FlamethrowerBurner");
+        //Invoke("SwitchToWeaponf", 6f);
+        //Invoke("SwitchToWeaponf", 12f);
+        //Invoke("SwitchToWeaponf", 18f);
+        //Invoke("SwitchToN", 24f);
     }
 
     // Update is called once per frame
@@ -40,9 +36,9 @@ public class Weapon : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
         {
             currentWeaponSetting.Activate();
-            if (Time.time - lastTick > weaponSettings[currentWeapon.name].tickDuration)
+            if (Time.time - lastTick > currentWeaponSetting.tickDuration)
             {
-                lastTick = Time.time;
+                lastTick += currentWeaponSetting.tickDuration;
                 currentWeaponSetting.executeTick();
             }
         }
@@ -50,21 +46,36 @@ public class Weapon : MonoBehaviour
         {
             currentWeaponSetting.Deactivate();
         }
+
+        if (Time.time - lastNapalmTick > currentWeaponSetting.tickDuration)
+        {
+            lastNapalmTick += currentWeaponSetting.tickDuration;
+            if (!currentWeaponSetting.isNapalm) return;
+            if (Random.Range(0f, 1f) > 0.33f) return;
+            currentWeaponSetting.executeNapalmTick();
+        }
     }
 
-    public void UpdateWeaponSettings()
-    {
-        Vector2[] points = currentWeapon.GetComponent<PolygonCollider2D>().points;
-        // Update range of flame
-        points[1] = points[0] + rangeMultiplier * (points[1] - points[0]);
-        points[2] = points[0] + rangeMultiplier * (points[2] - points[0]);
-        // Update width of flame
-        Vector2 middlePoint = 0.5f * (points[1] + points[2]);
-        points[1] = middlePoint + widthMultiplier * (points[1] - middlePoint);
-        points[2] = middlePoint + widthMultiplier * (points[2] - middlePoint);
+    private int i = 1;
 
-        currentWeaponSetting.tickDamage = currentWeaponSetting.baseTickDamage * damageMultiplier;
-        currentWeaponSetting.tickDuration = currentWeaponSetting.baseTickDuration /= speedMultiplier;
-        Debug.Log(currentWeaponSetting.tickDuration);
+    public void SwitchToWeaponf()
+    {
+        SwitchToWeapon($"Flamethrower{i}");
+        i++;
+    }
+
+    public void SwitchToN()
+    {
+        SwitchToWeapon("FlamethrowerNapalm");
+    }
+
+    public void SwitchToWeapon(string weaponName)
+    {
+        if (currentWeaponSetting != null)
+            currentWeaponSetting.Disable();
+        currentWeapon = weapons[weaponName];
+        currentWeaponSetting = weaponSettings[weaponName];
+        currentWeaponSetting.Enable();
+        lastNapalmTick = currentWeaponSetting.tickDuration / 2;
     }
 }

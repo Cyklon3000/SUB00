@@ -44,7 +44,7 @@ public class MonsterBehaviour : MonoBehaviour
 
     private Color damageIndicationColor = new Color(1f, 0.5f, 0.5f);
     private float damageIndicationStrength = 0f;
-    private float damageIndicationDuration = 0.1f;
+    private float damageIndicationDuration = 0.4f;
 
     // Start is called before the first frame update
     void Start()
@@ -175,7 +175,7 @@ public class MonsterBehaviour : MonoBehaviour
     public void takeDamage(float damage)
     {
         if (health <= 0) return;
-        Debug.Log($"Actually took damage {damage}?");
+        //Debug.Log($"Actually took damage {damage}?");
         health -= damage;
         DamageIndication();
 
@@ -205,7 +205,7 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void SpawnReward(int amount)
     {
-        Debug.Log($"Spawn reward: {amount}");
+        //Debug.Log($"Spawn reward: {amount}");
         Item.SpawnItems("Currency", amount, transform.position);
     }
 
@@ -222,6 +222,17 @@ public class MonsterBehaviour : MonoBehaviour
     {
         // Red glow or something
         damageIndicationStrength = 1f;
+    }
+
+    public void AddNapalmParticles()
+    {
+        if (transform.Find("NapalmParticles") != null) return;
+        GameObject napalmParticlesPrefab = GameObject.Find("NapalmParticles");
+        GameObject napalmParticles = Instantiate(napalmParticlesPrefab);
+        napalmParticles.transform.parent = transform;
+        napalmParticles.transform.localPosition = Vector3.zero;
+        napalmParticles.transform.localScale = Vector3.one;
+        napalmParticles.name = "NapalmParticles";
     }
 
     private Vector2 GetRandomUnitVector2D()

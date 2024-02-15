@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
-    public float baseTickDamage;
-    [HideInInspector] public float tickDamage;
-    public float baseTickDuration;
-    [HideInInspector] public float tickDuration;
-    [HideInInspector] public bool isNapalm = false;
+    public float tickDamage;
+    public float tickDuration;
+    public bool isNapalm;
 
     public bool isActive = false;
 
@@ -18,16 +16,18 @@ public class WeaponStats : MonoBehaviour
     public void Activate()
     {
         if (isActive) return;
-        ParticleSystem flame = transform.Find("Flame").gameObject.GetComponent<ParticleSystem>();
-        flame.Play();
+        GameObject flame = transform.Find("Flame").gameObject;
+        //flame.SetActive(true);
+        flame.GetComponent<ParticleSystem>().Play();
         isActive = true;
     }
 
     public void Deactivate()
     {
         if (!isActive) return;
-        ParticleSystem flame = transform.Find("Flame").gameObject.GetComponent<ParticleSystem>();
-        flame.Stop();
+        GameObject flame = transform.Find("Flame").gameObject;
+        //flame.SetActive(false);
+        flame.GetComponent<ParticleSystem>().Stop();
         isActive = false;
     }
 
@@ -38,7 +38,10 @@ public class WeaponStats : MonoBehaviour
 
     public void Disable()
     {
+        //Debug.Log($"Disabled {gameObject.name}'s Sprite");
         GetComponent<SpriteRenderer>().enabled = false;
+        isActive = true;
+        Deactivate();
     }
 
     public void executeTick()
@@ -49,13 +52,9 @@ public class WeaponStats : MonoBehaviour
             monster.takeDamage(tickDamage);
         }
         monsters = new HashSet<MonsterBehaviour>();
-        
-        if (!isNapalm) return;
-        if (Random.Range(0f, 1f) > .33f) return;
-        Invoke("executeNapalmTick", tickDuration / 2);
     }
 
-    private void executeNapalmTick()
+    public void executeNapalmTick()
     {
         foreach (MonsterBehaviour monster in napalmMonsters)
         {
@@ -73,7 +72,9 @@ public class WeaponStats : MonoBehaviour
                 monsters.Add(collision.gameObject.GetComponent<MonsterBehaviour>());
         }
         if (isActive && isNapalm)
+        {
             napalmMonsters.Add(collision.gameObject.GetComponent<MonsterBehaviour>());
-        // Add Napalm Particles to monsters
+            collision.gameObject.GetComponent<MonsterBehaviour>().AddNapalmParticles();
+        }
     }
 }
