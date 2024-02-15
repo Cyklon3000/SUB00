@@ -91,10 +91,9 @@ public class Item : MonoBehaviour
     private static void SpawnItem(string type, int amount, Vector3 pos)
     {
         if (amount == 0) return;
-        GameObject itemPrefab = GameObject.Find("Item (Base)");
         float randomifyStrength = 0.5f;
         Vector3 randomifyedPos = pos + (Vector3)GetRandomUnitVector2D().normalized * randomifyStrength;
-        Item newItem = Instantiate(itemPrefab, randomifyedPos, Quaternion.Euler(Vector3.zero)).GetComponent<Item>();
+        Item newItem = Instantiate(PrefabManager.GetPrefabs().itemBase, randomifyedPos, Quaternion.Euler(Vector3.zero)).GetComponent<Item>();
         newItem.itemType = type;
         newItem.itemAmount = amount;
         newItem.Setup();

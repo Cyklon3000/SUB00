@@ -6,8 +6,6 @@ public class StageGenerator : MonoBehaviour
 {
     private Room[] roomLayout;
     public GameObject[] rooms = new GameObject[9];
-    [SerializeField]
-    private GameObject roomPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +16,7 @@ public class StageGenerator : MonoBehaviour
         foreach (Room roomBlueprint in roomLayout)
         {
             Vector3 roomPosition = new Vector3(roomBlueprint.position.x * 10 * 2, roomBlueprint.position.y * 10 * 2, 0f);
-            rooms[roomBlueprint.getID()] = Instantiate(roomPrefab, roomPosition, transform.rotation);
+            rooms[roomBlueprint.getID()] = Instantiate(PrefabManager.GetPrefabs().roomPrefab, roomPosition, transform.rotation);
             RoomGenerator room = rooms[roomBlueprint.getID()].GetComponent<RoomGenerator>();
             room.Setup(roomBlueprint);
         }

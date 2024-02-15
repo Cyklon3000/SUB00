@@ -6,6 +6,14 @@ using UnityEngine.Rendering;
 public class PrefabManager : MonoBehaviour
 {
     public GameObject napalmParticles;
+    public GameObject bubblePrefab;
+    public GameObject tentaclePrefab;
+    public GameObject tinyTentaclePrefab;
+    public GameObject harpunePrefab;
+    public GameObject gooPrefab;
+    public GameObject roomPrefab;
+    public GameObject monsterBase;
+    public GameObject itemBase;
     
 
     public static PrefabManager GetPrefabs()
