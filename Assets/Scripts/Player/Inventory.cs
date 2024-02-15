@@ -45,6 +45,16 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public bool hasItems(string itemType, int amount)
+    {
+        // Returns weather the player has enough of the given item
+        if (itemAmountDict[itemType] >= amount)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void subItems(string itemType, int amount)
     {
         itemAmountDict[itemType] -= amount;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -42,6 +43,16 @@ public class RoomGenerator : MonoBehaviour
         for (int i = 0;i < 3; i++)
         {
             keyManager.keys[i] = r.keys[i];
+        }
+
+        // Spawn exit hatch
+        if (r.isEndRoom)
+        {
+            GameObject center = GameObject.Find("Center");
+            GameObject exitHatch = Instantiate(PrefabManager.GetPrefabs().exitHatch);
+            exitHatch.transform.parent = transform;
+            exitHatch.transform.localPosition = Vector3.zero;
+            exitHatch.GetComponent<Hatch>().Setup();
         }
     }
 

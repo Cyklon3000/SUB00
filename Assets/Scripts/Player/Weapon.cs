@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     private Dictionary<string, GameObject> weapons = new Dictionary<string, GameObject>();
     private Dictionary<string, WeaponStats> weaponSettings = new Dictionary<string, WeaponStats>();
-    private GameObject currentWeapon;
+    public GameObject currentWeapon;
     private WeaponStats currentWeaponSetting;
     
     private float lastTick = 0f;
@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
             weaponSettings[child.name].Disable();
         }
 
-        SwitchToWeapon("FlamethrowerNapalm");
+        SwitchToWeapon("GasTorch");
         //Invoke("SwitchToWeaponf", 6f);
         //Invoke("SwitchToWeaponf", 12f);
         //Invoke("SwitchToWeaponf", 18f);
@@ -53,19 +53,6 @@ public class Weapon : MonoBehaviour
             if (!currentWeaponSetting.isNapalm) return;
             currentWeaponSetting.executeNapalmTick();
         }
-    }
-
-    private int i = 1;
-
-    public void SwitchToWeaponf()
-    {
-        SwitchToWeapon($"Flamethrower{i}");
-        i++;
-    }
-
-    public void SwitchToN()
-    {
-        SwitchToWeapon("FlamethrowerNapalm");
     }
 
     public void SwitchToWeapon(string weaponName)

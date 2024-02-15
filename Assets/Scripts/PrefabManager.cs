@@ -14,8 +14,8 @@ public class PrefabManager : MonoBehaviour
     public GameObject roomPrefab;
     public GameObject monsterBase;
     public GameObject itemBase;
+    public GameObject exitHatch;
     
-
     public static PrefabManager GetPrefabs()
     {
         return GameObject.Find("PrefabCollector").GetComponent<PrefabManager>();
