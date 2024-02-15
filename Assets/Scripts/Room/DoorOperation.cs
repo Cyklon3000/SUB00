@@ -10,6 +10,7 @@ public class DoorOperation : MonoBehaviour
     private Loader loader;
     private GameObject room;
     private int roomID;
+    public int doorLevel;
     private float interactionDistance = 1.5f;
     MonsterSpawner monsterSpawner;
 
@@ -47,7 +48,7 @@ public class DoorOperation : MonoBehaviour
         if (!isUnlocked)
         {
             // Check if enough keys of type collected
-            string keyName = Inventory.IDtoItemName(0);
+            string keyName = Inventory.IDtoItemName(doorLevel);
             if (player.GetComponent<Inventory>().payItems(keyName, 1))
             {
                 // Open door and counterpart

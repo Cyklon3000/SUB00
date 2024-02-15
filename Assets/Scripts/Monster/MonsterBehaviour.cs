@@ -46,6 +46,8 @@ public class MonsterBehaviour : MonoBehaviour
     private float damageIndicationStrength = 0f;
     private float damageIndicationDuration = 0.4f;
 
+    private bool hasNapalm = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -226,13 +228,13 @@ public class MonsterBehaviour : MonoBehaviour
 
     public void AddNapalmParticles()
     {
-        if (transform.Find("NapalmParticles") != null) return;
+        if (hasNapalm) return;
         GameObject napalmParticlesPrefab = GameObject.Find("NapalmParticles");
-        GameObject napalmParticles = Instantiate(napalmParticlesPrefab);
+        GameObject napalmParticles = Instantiate(PrefabManager.GetPrefabs().napalmParticles);
         napalmParticles.transform.parent = transform;
         napalmParticles.transform.localPosition = Vector3.zero;
         napalmParticles.transform.localScale = Vector3.one;
-        napalmParticles.name = "NapalmParticles";
+        hasNapalm = true;
     }
 
     private Vector2 GetRandomUnitVector2D()

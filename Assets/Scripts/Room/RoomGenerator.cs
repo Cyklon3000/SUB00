@@ -34,6 +34,7 @@ public class RoomGenerator : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             doors[i].GetComponent<SpriteRenderer>().color = brightenColor(getLevelColor((int) r.doors[i, 1]));
+            doors[i].GetComponent<DoorOperation>().doorLevel = (int)r.doors[i, 1];
         }
 
         // Assign keys

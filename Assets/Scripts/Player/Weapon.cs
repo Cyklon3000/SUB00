@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
             weaponSettings[child.name].Disable();
         }
 
-        SwitchToWeapon("FlamethrowerBurner");
+        SwitchToWeapon("FlamethrowerNapalm");
         //Invoke("SwitchToWeaponf", 6f);
         //Invoke("SwitchToWeaponf", 12f);
         //Invoke("SwitchToWeaponf", 18f);
@@ -51,7 +51,6 @@ public class Weapon : MonoBehaviour
         {
             lastNapalmTick += currentWeaponSetting.tickDuration;
             if (!currentWeaponSetting.isNapalm) return;
-            if (Random.Range(0f, 1f) > 0.33f) return;
             currentWeaponSetting.executeNapalmTick();
         }
     }
