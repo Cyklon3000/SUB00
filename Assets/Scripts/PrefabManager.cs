@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Tilemaps;
 
 public class PrefabManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PrefabManager : MonoBehaviour
 
     public Sprite openDoor;
     public Sprite closedDoor;
+
+    public TileBase[] windowTiles;
+    public TileBase wallTile;
     
     public static PrefabManager GetPrefabs()
     {
