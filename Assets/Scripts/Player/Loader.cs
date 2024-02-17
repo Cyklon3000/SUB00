@@ -12,10 +12,10 @@ public class Loader : MonoBehaviour
     {
         // Get current room
         Vector3 playerPosition = GameObject.Find("Player").transform.position;
-        currentRoomID = getRoomIDClosestToPosition(playerPosition);
+        currentRoomID = GetRoomIDClosestToPosition(playerPosition);
     }
 
-    public int getRoomIDClosestToPosition(Vector3 position)
+    public int GetRoomIDClosestToPosition(Vector3 position)
     {
         int closestRoomID = 0;
         float shortestRoomDistanceSqr = Mathf.Infinity;

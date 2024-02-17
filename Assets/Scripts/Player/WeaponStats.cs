@@ -49,7 +49,7 @@ public class WeaponStats : MonoBehaviour
         //Debug.Log($"Executing tick for {monsters.Count} monsters");
         foreach (MonsterBehaviour monster in monsters)
         {
-            monster.takeDamage(tickDamage);
+            monster.TakeDamage(tickDamage);
         }
         monsters = new HashSet<MonsterBehaviour>();
     }
@@ -59,7 +59,7 @@ public class WeaponStats : MonoBehaviour
         foreach (MonsterBehaviour monster in napalmMonsters)
         {
             if (Random.Range(0f, 1f) > 0.33f) continue;
-            monster.takeDamage(tickDamage);
+            monster.TakeDamage(tickDamage);
         }
     }
 

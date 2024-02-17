@@ -233,11 +233,11 @@ public class StageRoomLayout : MonoBehaviour
                 return true;
 
             roomsToCheck.RemoveAt(0);
-            roomChecked[room.getID()] = true;
+            roomChecked[room.GetID()] = true;
 
             foreach (Room flankRoom in room.flanks) // Add bronze rooms to the sides 
             {
-                if (roomChecked[flankRoom.getID()]) // Already checked
+                if (roomChecked[flankRoom.GetID()]) // Already checked
                     continue;
                 if (flankRoom.roomLevel != 0)
                     continue;
@@ -250,7 +250,7 @@ public class StageRoomLayout : MonoBehaviour
     private List<Room> reachableRoomsByBronze(Room startRoom)
     {
         List<Room> reachableBronzeRooms = new List<Room> { startRoom };
-        HashSet<int> queuedRoomIDs = new HashSet<int> { startRoom.getID() };
+        HashSet<int> queuedRoomIDs = new HashSet<int> { startRoom.GetID() };
         int currentRoom = 0;
         while (currentRoom < reachableBronzeRooms.Count) // Loop through all rooms connected to startRoom
         {
@@ -265,12 +265,12 @@ public class StageRoomLayout : MonoBehaviour
 
             foreach (Room flankRoom in room.flanks) // Add bronze rooms to the sides 
             {
-                if (queuedRoomIDs.Contains(flankRoom.getID())) // Already in queue
+                if (queuedRoomIDs.Contains(flankRoom.GetID())) // Already in queue
                     continue;
                 if (flankRoom.roomLevel != 0) // Only Bronze
                     continue;
                 reachableBronzeRooms.Add(flankRoom);
-                queuedRoomIDs.Add(flankRoom.getID());
+                queuedRoomIDs.Add(flankRoom.GetID());
             }
             currentRoom++;
         }

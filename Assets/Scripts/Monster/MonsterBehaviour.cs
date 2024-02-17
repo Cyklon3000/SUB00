@@ -59,7 +59,7 @@ public class MonsterBehaviour : MonoBehaviour
     public void Setup()
     {
         loader = GameObject.Find("StageManager").GetComponent<Loader>();
-        int roomID = loader.getRoomIDClosestToPosition(transform.position);
+        int roomID = loader.GetRoomIDClosestToPosition(transform.position);
         room = GameObject.Find("StageManager").GetComponent<StageGenerator>().rooms[roomID];
         player = GameObject.Find("Player").transform;
         movement = GetComponent<MonsterMovement>();
@@ -183,7 +183,7 @@ public class MonsterBehaviour : MonoBehaviour
             if ((transform.position - collision.transform.position).magnitude > movement.range) return;
             // Is in range to explode -> Die, damage Player
 
-            takeDamage(1000f, false, 2.5f);
+            TakeDamage(1000f, false, 2.5f);
             player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
             GetComponent<CircleCollider2D>().enabled = false;
         }
@@ -198,7 +198,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
 
 
-    public void takeDamage(float damage, bool isDamageIndication = true, float scale = 0f)
+    public void TakeDamage(float damage, bool isDamageIndication = true, float scale = 0f)
     {
         if (health <= 0) return;
         //Debug.Log($"Actually took damage {damage}?");

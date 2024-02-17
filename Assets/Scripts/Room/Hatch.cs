@@ -16,14 +16,19 @@ public class Hatch : MonoBehaviour
     {
         player = GameObject.Find("Player");
         loader = GameObject.Find("StageManager").GetComponent<Loader>();
-        hatchRoomID = loader.getRoomIDClosestToPosition(transform.position);
+        hatchRoomID = loader.GetRoomIDClosestToPosition(transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (hatchRoomID != loader.currentRoomID) return;
-        if ((player.transform.position - transform.position).magnitude > interactionDistance) return;
+        if ((player.transform.position - transform.position).magnitude > interactionDistance)
+        {
+            GetComponent<Hints>().HideEHint();
+            return;
+        }
+        GetComponent<Hints>().ShowEHint();
         // Interaction possible
         if (!Input.GetKey(KeyCode.E)) return;
         // Interact (show menu)

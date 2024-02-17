@@ -63,7 +63,7 @@ public class ProjectileBehaviour : MonoBehaviour
             {
                 GameObject.Find("StageManager").GetComponent<MonsterTable>().instantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, transform.position);
                 Loader loader = GameObject.Find("StageManager").GetComponent<Loader>();
-                int roomID = loader.getRoomIDClosestToPosition(transform.position);
+                int roomID = loader.GetRoomIDClosestToPosition(transform.position);
                 GameObject room = GameObject.Find("StageManager").GetComponent<StageGenerator>().rooms[roomID];
                 room.GetComponent<MonsterSpawner>().createdMonster(0);
             }

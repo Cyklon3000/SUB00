@@ -26,7 +26,7 @@ public class Room
         }
     }
 
-    public int getID()
+    public int GetID()
     {
         return position.x + position.y * 3;
     }

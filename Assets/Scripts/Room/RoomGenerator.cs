@@ -19,7 +19,7 @@ public class RoomGenerator : MonoBehaviour
     public void Setup(Room roomBlueprint, int level)
     {
         r = roomBlueprint;
-        roomID = r.getID();
+        roomID = r.GetID();
         roomLevel = r.roomLevel;
 
         // Get references
@@ -100,7 +100,7 @@ public class RoomGenerator : MonoBehaviour
         {
             if ((int)r.doors[i, 1] == -1) // Skip direction if no door there
                 continue;
-            int linkedRoomID = ((Room)r.doors[i, 0]).getID();
+            int linkedRoomID = ((Room)r.doors[i, 0]).GetID();
             RoomGenerator linkedRoom = rooms[linkedRoomID].GetComponent<RoomGenerator>();
             doors[i].GetComponent<DoorOperation>().counterPart = linkedRoom.doors[(i + 2) % 4];
         }
@@ -109,8 +109,8 @@ public class RoomGenerator : MonoBehaviour
     private bool isRoomBehindWall(int wall)
     {
         Vector2Int wallDirection = new Vector2Int((wall == 1) ? 1 : (wall == 3) ? -1 : 0, (wall == 0) ? 1 : (wall == 2) ? -1 : 0);
-        Debug.Log("Room Pos: " + r.position);
-        Debug.Log("wall id: " + wall + " -> " + wallDirection);
+        //Debug.Log("Room Pos: " + r.position);
+        //Debug.Log("wall id: " + wall + " -> " + wallDirection);
         Vector2Int potentialRoom = r.position + wallDirection;
         return potentialRoom == new Vector2Int(Mathf.Clamp(potentialRoom.x, 0, 2), Mathf.Clamp(potentialRoom.y, 0, 2));
     }

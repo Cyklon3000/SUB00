@@ -35,18 +35,21 @@ public class DoorOperation : MonoBehaviour
             float playerDistance = (transform.position - player.position).magnitude;
             if (playerDistance < interactionDistance)
             {
-                interactionCheck();
+                GetComponent<Hints>().ShowEHint();
+                InteractionCheck();
                 if (isUnlocked)
                 {
                     GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().openDoor;
                     return;
                 }
             }
+            else
+                GetComponent<Hints>().HideEHint();
             GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().closedDoor;
         }
     }
 
-    private void interactionCheck()
+    private void InteractionCheck()
     {
         //Debug.Log("Awaiting E...");
         if (!Input.GetKeyUp(KeyCode.E))
@@ -68,10 +71,10 @@ public class DoorOperation : MonoBehaviour
             }
             return;
         }
-        counterPart.GetComponent<DoorOperation>().teleportPlayer();
+        counterPart.GetComponent<DoorOperation>().TeleportPlayer();
     }
 
-    public void teleportPlayer()
+    public void TeleportPlayer()
     {
         // Attempt spawning monsters
         monsterSpawner.spawnMonsters();
