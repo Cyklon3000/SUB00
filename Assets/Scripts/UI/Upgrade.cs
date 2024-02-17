@@ -47,6 +47,7 @@ public class Upgrade : MonoBehaviour
             currentUpgrades = upgradesLevel0;
         currentUpgrades.SetActive(true);
         GameObject.Find("Selection").GetComponent<RectTransform>().localPosition = 150 * Vector3.right * selectedUpgrade;
+        SelectUpgrade(0);
     }
 
     public void SelectUpgrade(int upgrade)
@@ -68,9 +69,9 @@ public class Upgrade : MonoBehaviour
 
     public void ConfirmSelection()
     {
+        if (!inventory.payItems("Currency", selectedCost)) return;
         int currentLevel = GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel();
         string newWeapon = GameObject.Find("Weapon").GetComponent<Weapon>().currentWeapon.name;
-        inventory.payItems("Currency", selectedCost);
         if (currentLevel == 2)
         {
             switch (selectedUpgrade)
