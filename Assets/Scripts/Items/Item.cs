@@ -72,7 +72,7 @@ public class Item : MonoBehaviour
 
         if (pickUpProgress < 1f) return;
 
-        player.GetComponent<Inventory>().addItems(itemType, itemAmount);
+        player.GetComponent<Inventory>().AddItems(itemType, itemAmount);
         Destroy(gameObject);
     }
 

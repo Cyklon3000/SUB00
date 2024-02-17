@@ -28,7 +28,12 @@ public class Inventory : MonoBehaviour
         
     }
 
-    public void addItems(string itemType, int amount)
+    public int GetItems(string itemType)
+    {
+        return itemAmountDict[itemType];
+    }
+
+    public void AddItems(string itemType, int amount)
     {
         itemAmountDict[itemType] += amount;
         UpdateCounters();

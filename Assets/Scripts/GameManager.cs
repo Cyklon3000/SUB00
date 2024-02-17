@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class GameManager : MonoBehaviour
         if (level < 0)
         {
             Debug.Log("GAME COMPLETE!!!");
-            DeleteCurrentLevel();
+            EndAttempt(false);
             return;
         }
         DeleteCurrentLevel();
@@ -37,6 +38,15 @@ public class GameManager : MonoBehaviour
         GameObject.Find("Player").GetComponent<Inventory>().SetItems("BronzeKey", 1);
 
         GameObject.Find("Player").GetComponent<Inventory>().SetItems("GoldKey", 1);
+    }
+
+    public void EndAttempt(bool isDead)
+    {
+        PlayerPrefs.SetInt("isDead", isDead ? 1 : 0);
+        PlayerPrefs.SetInt("currency", GameObject.Find("Player").GetComponent<Inventory>().GetItems("Currency"));
+        PlayerPrefs.SetFloat("time", Time.time);
+
+        SceneManager.LoadScene("EndScreen");
     }
 
     private void DeleteCurrentLevel()
