@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         GameObject.Find("Player").GetComponent<PlayerBehaviour>().ResetHealth();
         if (!fullRoutine) return;
         GameObject.Find("Player").GetComponent<Inventory>().ClearKeys();
-        GameObject.Find("Player").GetComponent<Inventory>().SetItems("BronzeKey", 1);
+        GameObject.Find("Player").GetComponent<Inventory>().SetItems("BronzeKey", 3);
 
         //GameObject.Find("Player").GetComponent<Inventory>().SetItems("GoldKey", 1);
     }

@@ -70,7 +70,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("Game Over! (Player died)");
-        // GameOver initiation
+        GameObject.Find("GameManager").GetComponent<GameManager>().EndAttempt(true);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

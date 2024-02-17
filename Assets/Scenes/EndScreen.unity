@@ -2539,7 +2539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db31981fd123394389b5703e8c68935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endMessage: {fileID: 0}
+  endMessage: {fileID: 158959620}
   metalAmount: {fileID: 186802932}
   timeAmount: {fileID: 1953425212}
   scoreAmount: {fileID: 1123521758}

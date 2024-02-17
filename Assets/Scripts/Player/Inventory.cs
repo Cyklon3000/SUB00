@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
     {
         itemAmountDict["Currency"] = 0;
         itemCounterDict["Currency"] = GameObject.Find("CurrencyCounter").GetComponent<TextMeshProUGUI>();
-        itemAmountDict["BronzeKey"] = 1;
+        itemAmountDict["BronzeKey"] = 3;
         itemCounterDict["BronzeKey"] = GameObject.Find("BronzeKeyCounter").GetComponent<TextMeshProUGUI>();
         itemAmountDict["SilverKey"] = 0;
         itemCounterDict["SilverKey"] = GameObject.Find("SilverKeyCounter").GetComponent<TextMeshProUGUI>();
