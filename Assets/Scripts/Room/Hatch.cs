@@ -27,6 +27,9 @@ public class Hatch : MonoBehaviour
         // Interaction possible
         if (!Input.GetKey(KeyCode.E)) return;
         // Interact (show menu)
-        GameObject.Find("UpgradeUI").GetComponent<Upgrade>().ShowUpgradeUI();
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel() > 0)
+            GameObject.Find("UpgradeUI").GetComponent<Upgrade>().ShowUpgradeUI();
+        else
+            GameObject.Find("GameManager").GetComponent<GameManager>().LoadNextLevel();
     }
 }

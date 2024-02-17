@@ -67,8 +67,10 @@ public class WeaponStats : MonoBehaviour
     {
         if (isActive)
         {
-            if (collision.gameObject.name.StartsWith("GlowSquidLegs"))
+            if (collision.gameObject.name.EndsWith("GlowSquidLegs(Clone)"))
                 monsters.Add(collision.transform.parent.gameObject.GetComponent<MonsterBehaviour>());
+            else if (collision.gameObject.name.EndsWith("AnglerFishRod(Clone)"))
+                monsters.Add(collision.transform.parent.parent.gameObject.GetComponent<MonsterBehaviour>());
             else
                 monsters.Add(collision.gameObject.GetComponent<MonsterBehaviour>());
         }

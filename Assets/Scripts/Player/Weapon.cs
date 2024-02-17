@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
             weaponSettings[child.name].Disable();
         }
 
-        SwitchToWeapon("GasTorch");
+        SwitchToWeapon("GasTorch"); //GasTorch
         //Invoke("SwitchToWeaponf", 6f);
         //Invoke("SwitchToWeaponf", 12f);
         //Invoke("SwitchToWeaponf", 18f);

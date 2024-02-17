@@ -30,17 +30,18 @@ public class Upgrade : MonoBehaviour
     void Update()
     {
         // Quit menu if moved, Esc or E
-        if (new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).Equals(Vector2.zero)
-            && !Input.GetKey(KeyCode.Escape) && !Input.GetKey(KeyCode.E)) return;
-        HideUpgradeUI();
+        if (!(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).Equals(Vector2.zero))
+            || Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.E))
+            HideUpgradeUI();
     }
 
     public void ShowUpgradeUI()
     {
         upgradesContainer.SetActive(true);
-        int currentStage = 2;
+        int currentLevel = GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel();
+        Debug.Log($"Current Level: {currentLevel}");
         selectedUpgrade = -1;
-        if (currentStage == 2)
+        if (currentLevel == 2)
             currentUpgrades = upgradesLevel1;
         else
             currentUpgrades = upgradesLevel0;
@@ -67,10 +68,10 @@ public class Upgrade : MonoBehaviour
 
     public void ConfirmSelection()
     {
-        int currentStage = 2;
+        int currentLevel = GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel();
         string newWeapon = GameObject.Find("Weapon").GetComponent<Weapon>().currentWeapon.name;
         inventory.payItems("Currency", selectedCost);
-        if (currentStage == 2)
+        if (currentLevel == 2)
         {
             switch (selectedUpgrade)
             {
@@ -102,5 +103,6 @@ public class Upgrade : MonoBehaviour
         GameObject.Find("Weapon").GetComponent<Weapon>().SwitchToWeapon(newWeapon);
         HideUpgradeUI();
         // Progress to next Level
+        GameObject.Find("GameManager").GetComponent<GameManager>().LoadNextLevel();
     }
 }

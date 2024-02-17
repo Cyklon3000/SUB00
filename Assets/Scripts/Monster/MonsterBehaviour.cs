@@ -48,6 +48,8 @@ public class MonsterBehaviour : MonoBehaviour
 
     private bool hasNapalm = false;
 
+    private float timeDialation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,13 +65,30 @@ public class MonsterBehaviour : MonoBehaviour
         movement = GetComponent<MonsterMovement>();
         look = transform.Find("Appearance").GetComponent<SpriteRenderer>();
         look.sprite = appearance;
+        lastSpread = Time.time;
+        timeDialation = Random.Range(0f, 2f);
+
+        if (gameObject.name.StartsWith("Giant goo Monster"))
+        {
+            GetComponent<CircleCollider2D>().radius *= 3f;
+        }
+
+        if (isSpreading)
+        {
+            GetComponent<CircleCollider2D>().includeLayers = LayerMask.GetMask("Player");
+            GetComponent<CircleCollider2D>().isTrigger = true;
+            GetComponent<CircleCollider2D>().excludeLayers = LayerMask.GetMask("Monster");
+        }
+
+            if (gameObject.name == "Giant angler fish")
+        {
+            transform.localScale = 2f * Vector3.one;
+        }
 
         if (!isStabbing) return;
         stabber = Instantiate(stabbingPrefab);
-        stabber.transform.parent = transform;
+        stabber.GetComponent<StabberBehaviour>().Setup(damage, transform);
         //stabber.transform.localPosition = new Vector3(0.0f, (monsterType == 2) ? -0.3f : -0.1f, 0.0f);
-        stabber.transform.localPosition = Vector3.zero;
-        stabber.GetComponent<StabberBehaviour>().damage = damage;
     }
 
     // Update is called once per frame
@@ -102,7 +121,7 @@ public class MonsterBehaviour : MonoBehaviour
             lastShot  = Time.time;
             ProjectileBehaviour projectile = Instantiate(projectilePrefab, transform.position, transform.rotation).GetComponent<ProjectileBehaviour>();
             projectile.damage = damage;
-            projectile.isMonster = projectilePrefab.name.Equals("Goo");
+            projectile.isGoo = projectilePrefab.name.Equals("GooEgg");
             Vector3 playerDirection = (player.position - transform.position).normalized;
             projectile.Shoot(playerDirection);
         }
@@ -128,62 +147,68 @@ public class MonsterBehaviour : MonoBehaviour
 
         if (isSpreading)
         {
-            if (Time.time - lastSpread < spreadingCooldown) goto FailedSpreading;
+            if (Time.time - lastSpread - timeDialation < spreadingCooldown) goto FailedSpreading;
             // Test random clone position
-            Vector3 randomPosition = transform.position + (Vector3) GetRandomUnitVector2D();
+            Vector3 randomPosition = transform.position + (Vector3) GetRandomUnitVector2D() * 1.5f;
+            if (Mathf.Max(Mathf.Abs((randomPosition - room.transform.position).x), Mathf.Abs((randomPosition - room.transform.position).y)) > 4) goto FailedSpreading;
             GameObject[] currentMonsters = GameObject.FindGameObjectsWithTag("Monster");
             
             // Calculate monster density at random point
             int density = 0;
             foreach (GameObject monster in currentMonsters)
             {
-                if ((monster.transform.position - randomPosition).magnitude > 1)
+                if ((monster.transform.position - randomPosition).magnitude > 1.5)
                     continue;
                 density++;
-                if (density > maxSpreadDensity) goto FailedSpreading;
+                if (density > maxSpreadDensity)
+                {
+                    lastSpread += spreadingCooldown;
+                    goto FailedSpreading;
+                }
             }
 
             // Spawn clone at random point
-            GameObject.Find("StageManager").GetComponent<MonsterTable>().instantiateMonster(2, 0, randomPosition);
+            GameObject.Find("StageManager").GetComponent<MonsterTable>().instantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, randomPosition);
             room.GetComponent<MonsterSpawner>().createdMonster(0);
-            lastSpread = Time.time;
+            lastSpread += spreadingCooldown;
         }
         FailedSpreading:
         return;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!isPassthroughDamage) return;
-        if (!collision.gameObject.name.Equals("Player")) return;
-        player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!isBurstingOnRange) return;
-        if (!collision.gameObject.name.Equals("Player")) return;
-        if ((transform.position - collision.transform.position).magnitude >= movement.range) return;
-        // Is in range to explode -> Die, damage Player
-        health = 0;
-        Dying(2.5f);
-        SpawnReward(reward);
-        LastMonsterCheck();
-        player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
-        GetComponent<CircleCollider2D>().enabled = false;
+        if (isBurstingOnRange && collision.gameObject.name.Equals("Player"))
+        {
+            if ((transform.position - collision.transform.position).magnitude > movement.range) return;
+            // Is in range to explode -> Die, damage Player
+
+            takeDamage(1000f, false, 2.5f);
+            player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
+            GetComponent<CircleCollider2D>().enabled = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isPassthroughDamage && collision.gameObject.name.Equals("Player"))
+        {
+            player.GetComponent<PlayerBehaviour>().TakeDamage(damage);
+        }
     }
 
 
-    public void takeDamage(float damage)
+    public void takeDamage(float damage, bool isDamageIndication = true, float scale = 0f)
     {
         if (health <= 0) return;
         //Debug.Log($"Actually took damage {damage}?");
         health -= damage;
-        DamageIndication();
+        if (isDamageIndication)
+            DamageIndication();
 
         if (health <= 0)
         {
-            Dying(0.0f);
+            Dying(scale);
             LastMonsterCheck();
             SpawnReward(reward);
         }

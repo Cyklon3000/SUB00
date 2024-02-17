@@ -27,6 +27,8 @@ public class MonsterMovement : MonoBehaviour
     [SerializeField] public float dashCooldown;
     private float lastDash;
 
+    private float randomTiming;
+
     [HideInInspector]
     public int orientation = -1;
 
@@ -42,6 +44,21 @@ public class MonsterMovement : MonoBehaviour
 
         rigidbody2D.angularDrag = 0.0f;
         rigidbody2D.gravityScale = 0.0f;
+
+        lastDash = - Random.value * dashCooldown;
+
+        if (isDashing)
+        {
+            transform.localScale = 1.5f * Vector3.one;
+            GetComponent<CircleCollider2D>().radius *= 0.75f;
+        }
+
+        if (gameObject.name.Equals("Giant goo Monster"))
+        {
+            GetComponent<Rigidbody2D>().isKinematic = true;
+        }
+
+        appearance.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
     }
 
     // Update is called once per frame
@@ -76,8 +93,11 @@ public class MonsterMovement : MonoBehaviour
         }
 
         // Set view orientation
-        float zRotation = GetRotationFromVector(player.transform.position - transform.position) + 90f;
-        appearance.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+        if (maxSpeed > 0)
+        {
+            float zRotation = GetRotationFromVector(player.transform.position - transform.position) + 90f;
+            appearance.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+        }
     }
 
     void FixedUpdate()

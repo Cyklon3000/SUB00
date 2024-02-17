@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
         itemCounterDict["BronzeKey"] = GameObject.Find("BronzeKeyCounter").GetComponent<TextMeshProUGUI>();
         itemAmountDict["SilverKey"] = 0;
         itemCounterDict["SilverKey"] = GameObject.Find("SilverKeyCounter").GetComponent<TextMeshProUGUI>();
-        itemAmountDict["GoldKey"] = 0;
+        itemAmountDict["GoldKey"] = 1;
         itemCounterDict["GoldKey"] = GameObject.Find("GoldKeyCounter").GetComponent<TextMeshProUGUI>();
         UpdateCounters();
     }
@@ -31,7 +31,13 @@ public class Inventory : MonoBehaviour
     public void addItems(string itemType, int amount)
     {
         itemAmountDict[itemType] += amount;
-        itemCounterDict[itemType].text = itemAmountDict[itemType].ToString();
+        UpdateCounters();
+    }
+
+    public void setItems(string itemType, int amount)
+    {
+        itemAmountDict[itemType] = amount;
+        UpdateCounters();
     }
 
     public bool payItems(string itemType, int amount)

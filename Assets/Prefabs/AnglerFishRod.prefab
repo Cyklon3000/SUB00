@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3245872797547761099}
   - component: {fileID: 5593083022055131647}
   - component: {fileID: 8675704955016027938}
-  - component: {fileID: 7678496245077197240}
+  - component: {fileID: 4597104038840824405}
   m_Layer: 10
-  m_Name: GiantGlowSquidLegs
+  m_Name: AnglerFishRod
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1626361753
   m_SortingLayer: 4
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 78128c084157ec84da169f4d43def0ac, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 0d1c2a3faf2699940aa4b6eb25f27cf3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
---- !u!68 &7678496245077197240
+--- !u!68 &4597104038840824405
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,43 +134,12 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.7159958, y: 0.1942997}
-  - {x: -1.7338753, y: 0.8463054}
-  - {x: -1.4401531, y: 0.8407717}
-  - {x: -0.6010208, y: 0.4725294}
-  - {x: -0.3306427, y: 0.6776891}
-  - {x: -0.6316738, y: 1.826488}
-  - {x: -0.42552757, y: 1.5981936}
-  - {x: -0.1566639, y: 0.8463392}
-  - {x: 0.2443161, y: 0.7953434}
-  - {x: 0.82915306, y: 1.7015934}
-  - {x: 0.7631626, y: 1.3207979}
-  - {x: 0.6725025, y: 1.0371299}
-  - {x: 0.44062805, y: 0.63436365}
-  - {x: 0.55550003, y: 0.40993404}
-  - {x: 1.7830601, y: 0.6581569}
-  - {x: 1.761961, y: 0.521328}
-  - {x: 1.2398491, y: 0.27025175}
-  - {x: 0.74702454, y: 0.14939117}
-  - {x: 0.6949787, y: -0.2131486}
-  - {x: 1.7285233, y: -0.77974224}
-  - {x: 1.5826759, y: -0.86783695}
-  - {x: 0.5633621, y: -0.43529367}
-  - {x: 0.3564129, y: -0.7244334}
-  - {x: 0.6564579, y: -1.7061}
-  - {x: 0.54478455, y: -1.7723851}
-  - {x: 0.10116768, y: -0.7117853}
-  - {x: -0.26398277, y: -0.71349144}
-  - {x: -0.77585983, y: -1.6772151}
-  - {x: -0.8690033, y: -1.6637344}
-  - {x: -0.45076942, y: -0.5129857}
-  - {x: -0.72514725, y: -0.330369}
-  - {x: -1.7690868, y: -0.6450381}
-  - {x: -1.7904205, y: -0.52543163}
-  - {x: -1.1566448, y: -0.24069071}
-  - {x: -0.7252922, y: -0.12761736}
-  - {x: -0.7239609, y: 0.1790433}
-  m_AdjacentStartPoint: {x: 0, y: 0}
+  - {x: -0.04857731, y: -0.9566488}
+  - {x: 0.096922874, y: -0.95467424}
+  - {x: 0.08953953, y: -0.31378746}
+  - {x: -0.07770729, y: -0.3115797}
+  - {x: -0.06844044, y: -0.9566488}
+  m_AdjacentStartPoint: {x: -0.06777573, y: -0.3140621}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0

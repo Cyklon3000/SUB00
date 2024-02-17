@@ -9,6 +9,7 @@ public class PrefabManager : MonoBehaviour
     public GameObject bubblePrefab;
     public GameObject tentaclePrefab;
     public GameObject tinyTentaclePrefab;
+    public GameObject anglerRodPrefab;
     public GameObject harpunePrefab;
     public GameObject gooPrefab;
     public GameObject roomPrefab;

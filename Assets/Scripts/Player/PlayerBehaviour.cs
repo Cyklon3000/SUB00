@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public float health = 100f;
+    public float health = 200f;
 
     private GameObject weapon;
 
@@ -42,11 +44,13 @@ public class PlayerBehaviour : MonoBehaviour
     private void IndicateDamage()
     {
         // Red glow and health bar
+        Slider slider = GameObject.Find("HealthBarSlider").GetComponent<Slider>();
+        slider.value = health / 200f;
     }
 
     private void GameOver()
     {
-        Debug.Log("Game Over!");
+        Debug.Log("Game Over! (Player died)");
         // GameOver initiation
     }
 

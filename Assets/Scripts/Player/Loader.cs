@@ -6,19 +6,13 @@ using UnityEngine;
 public class Loader : MonoBehaviour
 {
     public int currentRoomID = -1;
-    private Transform player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = GameObject.Find("Player").transform;
-    }
 
     // Update is called once per frame
     void Update()
     {
         // Get current room
-        currentRoomID = getRoomIDClosestToPosition(player.position);
+        Vector3 playerPosition = GameObject.Find("Player").transform.position;
+        currentRoomID = getRoomIDClosestToPosition(playerPosition);
     }
 
     public int getRoomIDClosestToPosition(Vector3 position)
@@ -27,6 +21,8 @@ public class Loader : MonoBehaviour
         float shortestRoomDistanceSqr = Mathf.Infinity;
         foreach (GameObject room in GameObject.FindGameObjectsWithTag("Room"))
         {
+            if (!room.name.StartsWith("Room")) continue;
+
             float distanceSqr = (position - room.transform.position).sqrMagnitude;
             if (distanceSqr < shortestRoomDistanceSqr)
             {

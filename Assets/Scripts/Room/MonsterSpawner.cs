@@ -32,15 +32,15 @@ public class MonsterSpawner : MonoBehaviour
 
         isCharged = false;
         isActive = true;
-        int[] monsterAmounts = monsterTable.getMonsterAmounts(2, roomLevel);
+        int[] monsterAmounts = monsterTable.getMonsterAmounts(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), roomLevel);
         monstersLeft = (int[]) monsterAmounts.Clone();
 
         for (int i = 0; i < monsterAmounts.Length; i++)
         {
             for (int j = 0; j < monsterAmounts[i]; j++)
             {
-                Vector3 randomPosition = transform.position + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f);
-                monsterTable.instantiateMonster(2, i, randomPosition);
+                Vector3 randomPosition = transform.position + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0f);
+                monsterTable.instantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), i, randomPosition);
             }
         }
     }

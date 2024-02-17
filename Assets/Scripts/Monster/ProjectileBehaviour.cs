@@ -5,11 +5,10 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
     public float damage;
-    public bool isMonster;
+    public bool isGoo;
 
     public Vector2 direction;
     private float speed = 5f;
-    private float decelerationSpeed = 1f;
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -21,11 +20,7 @@ public class ProjectileBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isMonster) return;
-        speed = speed - (speed / decelerationSpeed) * Time.fixedDeltaTime;
-        if (speed > 0) return;
-        rb.velocity = Vector2.zero;
-        enabled = false;
+
     }
 
     void FixedUpdate()
@@ -40,7 +35,7 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         this.direction = direction;
         float zRotation = GetRotationFromVector(direction);
-        transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+        transform.rotation = Quaternion.Euler(0f, 0f, zRotation + 90f);
     }
 
     private float GetRotationFromVector(Vector2 direction)
@@ -52,16 +47,27 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name.StartsWith("Wall"))
-        {
-            rb.velocity = Vector2.zero;
-            enabled = false;
-        }
-        else if (collision.gameObject.name.Equals("Player"))
+        if (collision.gameObject.name.Equals("Player"))
         {
             collision.gameObject.GetComponent<PlayerBehaviour>().TakeDamage(damage);
         }
         else return;
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name.StartsWith("Wall") && (gameObject.name.StartsWith("Harpoon") || isGoo))
+        {
+            if (isGoo)
+            {
+                GameObject.Find("StageManager").GetComponent<MonsterTable>().instantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, transform.position);
+                Loader loader = GameObject.Find("StageManager").GetComponent<Loader>();
+                int roomID = loader.getRoomIDClosestToPosition(transform.position);
+                GameObject room = GameObject.Find("StageManager").GetComponent<StageGenerator>().rooms[roomID];
+                room.GetComponent<MonsterSpawner>().createdMonster(0);
+            }
+            Destroy(gameObject);
+        }
     }
 }

@@ -13,7 +13,7 @@ public class RoomGenerator : MonoBehaviour
     public GameObject[] doors = new GameObject[4];
     
     // Start is called before the first frame update
-    public void Setup(Room roomBlueprint)
+    public void Setup(Room roomBlueprint, int level)
     {
         r = roomBlueprint;
         roomID = r.getID();
@@ -43,6 +43,13 @@ public class RoomGenerator : MonoBehaviour
         for (int i = 0;i < 3; i++)
         {
             keyManager.keys[i] = r.keys[i];
+        }
+
+        // Teleport player into room and deactivate mobs for that room
+        if (r.isStartRoom)
+        {
+            GameObject.Find("Player").transform.position = transform.position;
+            GetComponent<MonsterSpawner>().isCharged = false;
         }
 
         // Spawn exit hatch
