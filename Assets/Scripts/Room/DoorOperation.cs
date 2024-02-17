@@ -36,7 +36,13 @@ public class DoorOperation : MonoBehaviour
             if (playerDistance < interactionDistance)
             {
                 interactionCheck();
+                if (isUnlocked)
+                {
+                    GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().openDoor;
+                    return;
+                }
             }
+            GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().closedDoor;
         }
     }
 

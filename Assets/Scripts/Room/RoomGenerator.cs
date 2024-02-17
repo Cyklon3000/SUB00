@@ -90,11 +90,11 @@ public class RoomGenerator : MonoBehaviour
         switch (level)
         {
             case 0:
-                return Gizmos.color = new Color(145f/255, 89f/255, 42f/255);
+                return new Color(0.792f, 0.490f, 0.349f);
             case 1:
-                return Color.gray;
+                return new Color(0.702f, 0.702f, 0.702f);
             case 2:
-                return Color.yellow;
+                return new Color(0.847f, 0.733f, 0.302f);
         }
         return new Color(0f, 0f, 0f, 0f);
     }

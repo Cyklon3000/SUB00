@@ -16,6 +16,9 @@ public class PrefabManager : MonoBehaviour
     public GameObject monsterBase;
     public GameObject itemBase;
     public GameObject exitHatch;
+
+    public Sprite openDoor;
+    public Sprite closedDoor;
     
     public static PrefabManager GetPrefabs()
     {
