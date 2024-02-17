@@ -146,7 +146,7 @@ public class MonsterTable : MonoBehaviour
                     monster.name = "Goo";
                     declareMonsterValues(monster,
                         false, false, 0f, 1.0f, 0.1f, 0.5f, false, 0.4f, 2.5f, true, 1.2f, 0.65f, false, 1300.0f, 3.5f, 2.5f,
-                        0, true, false, 0.6f, null, false, 0.5f, null, false, false, 0.35f, true, 2.5f, 4, 5.0f, 1.0f, 0, appearances[6]);
+                        0, true, false, 0.6f, null, false, 0.5f, null, false, false, 0.35f, true, 2.5f, 4, 5.5f, 6.0f, 0, appearances[6]);
                     break;
                 case 1: // Infected diver
                     monster = Instantiate(PrefabManager.GetPrefabs().monsterBase, position, Quaternion.Euler(0f, 0f, 0f));
