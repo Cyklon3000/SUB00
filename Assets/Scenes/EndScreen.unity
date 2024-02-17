@@ -2077,7 +2077,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1467111917}
         m_TargetAssemblyTypeName: ScoreScreen, Assembly-CSharp
-        m_MethodName: SubmitScore
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

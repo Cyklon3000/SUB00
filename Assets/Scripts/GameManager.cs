@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         GameObject.Find("Player").GetComponent<Inventory>().ClearKeys();
         GameObject.Find("Player").GetComponent<Inventory>().SetItems("BronzeKey", 1);
 
-        GameObject.Find("Player").GetComponent<Inventory>().SetItems("GoldKey", 1);
+        //GameObject.Find("Player").GetComponent<Inventory>().SetItems("GoldKey", 1);
     }
 
     public void EndAttempt(bool isDead)

@@ -51,6 +51,7 @@ public class MonsterMovement : MonoBehaviour
         {
             transform.localScale = 1.5f * Vector3.one;
             GetComponent<CircleCollider2D>().radius *= 0.75f;
+            lastDash = Time.time + dashCooldown + (Random.value + 0.25f);
         }
 
         if (gameObject.name.Equals("Giant goo Monster"))

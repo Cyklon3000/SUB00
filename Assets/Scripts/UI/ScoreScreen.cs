@@ -37,10 +37,6 @@ public class ScoreScreen : MonoBehaviour
         metalMeasured = PlayerPrefs.GetInt("currency");
         timeMeasured = PlayerPrefs.GetFloat("time");
 
-        isDead = false;
-        metalMeasured = 74;
-        timeMeasured = 45;
-
         metal = $"{metalMeasured}";
 
         string timeMM = $"{(int)(timeMeasured / 60)}";
