@@ -37,7 +37,7 @@ public class RoomGenerator : MonoBehaviour
         //floor.GetComponent<SpriteRenderer>().color = getLevelColor(r.roomLevel);
         for (int i = 0; i < 4; i++)
         {
-            doors[i].GetComponent<SpriteRenderer>().color = brightenColor(getLevelColor((int)r.doors[i, 1]));
+            doors[i].GetComponent<SpriteRenderer>().color = brightenColor(GetLevelColor((int)r.doors[i, 1]));
             doors[i].GetComponent<DoorOperation>().doorLevel = (int)r.doors[i, 1];
         }
 
@@ -47,7 +47,7 @@ public class RoomGenerator : MonoBehaviour
         // Replace window tiles of walls with default tiles on inside walls
         for (int i = 0; i < 4; i++)
         {
-            if (!isRoomBehindWall(i)) continue;
+            if (!IsRoomBehindWall(i)) continue;
 
             // Raplace Windows
             Tilemap tilemap = walls[i].transform.Find("Tilemap").GetComponent<Tilemap>();
@@ -106,7 +106,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private bool isRoomBehindWall(int wall)
+    private bool IsRoomBehindWall(int wall)
     {
         Vector2Int wallDirection = new Vector2Int((wall == 1) ? 1 : (wall == 3) ? -1 : 0, (wall == 0) ? 1 : (wall == 2) ? -1 : 0);
         //Debug.Log("Room Pos: " + r.position);
@@ -116,14 +116,14 @@ public class RoomGenerator : MonoBehaviour
     }
     private Color brightenColor(Color color)
     {
-        float brighten(float x)
+        float Brighten(float x)
         {
             return Mathf.Clamp01(Mathf.Sqrt(x + 0.1f));
         }
-        return new Color(brighten(color.r), brighten(color.g), brighten(color.b), color.a);
+        return new Color(Brighten(color.r), Brighten(color.g), Brighten(color.b), color.a);
     }
 
-    private Color getLevelColor(int level)
+    private Color GetLevelColor(int level)
     {
         switch (level)
         {

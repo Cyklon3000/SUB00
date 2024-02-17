@@ -39,7 +39,7 @@ public class Weapon : MonoBehaviour
             if (Time.time - lastTick > currentWeaponSetting.tickDuration)
             {
                 lastTick += currentWeaponSetting.tickDuration;
-                currentWeaponSetting.executeTick();
+                currentWeaponSetting.ExecuteTick();
             }
         }
         else
@@ -51,7 +51,7 @@ public class Weapon : MonoBehaviour
         {
             lastNapalmTick += currentWeaponSetting.tickDuration;
             if (!currentWeaponSetting.isNapalm) return;
-            currentWeaponSetting.executeNapalmTick();
+            currentWeaponSetting.ExecuteNapalmTick();
         }
     }
 

@@ -58,7 +58,7 @@ public class DoorOperation : MonoBehaviour
         {
             // Check if enough keys of type collected
             string keyName = Inventory.IDtoItemName(doorLevel);
-            if (player.GetComponent<Inventory>().payItems(keyName, 1))
+            if (player.GetComponent<Inventory>().PayItems(keyName, 1))
             {
                 // Open door and counterpart
                 isUnlocked = true;
@@ -77,7 +77,7 @@ public class DoorOperation : MonoBehaviour
     public void TeleportPlayer()
     {
         // Attempt spawning monsters
-        monsterSpawner.spawnMonsters();
+        monsterSpawner.SpawnMonsters();
 
         Vector2 roomCenterDirection = (transform.parent.parent.position - transform.position).normalized;
         Vector2 targetPosition = (Vector2)transform.position + roomCenterDirection * 1.25f;

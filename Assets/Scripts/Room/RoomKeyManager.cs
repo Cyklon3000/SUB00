@@ -6,7 +6,7 @@ public class RoomKeyManager : MonoBehaviour
 {
     public int[] keys = new int[3];
 
-    public int[] getKeysToDrop()
+    public int[] GetKeysToDrop()
     {
         // TO BE CHANGED! NO MORE KEYS THAN DOORS TO OPEN!
         return keys;

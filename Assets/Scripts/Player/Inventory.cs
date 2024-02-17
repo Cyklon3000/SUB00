@@ -34,24 +34,24 @@ public class Inventory : MonoBehaviour
         UpdateCounters();
     }
 
-    public void setItems(string itemType, int amount)
+    public void SetItems(string itemType, int amount)
     {
         itemAmountDict[itemType] = amount;
         UpdateCounters();
     }
 
-    public bool payItems(string itemType, int amount)
+    public bool PayItems(string itemType, int amount)
     {
         // Returns weather the player has enough of the given item and subtracts if so
         if (itemAmountDict[itemType] >= amount)
         {
-            subItems(itemType, amount);
+            SubItems(itemType, amount);
             return true;
         }
         return false;
     }
 
-    public bool hasItems(string itemType, int amount)
+    public bool HasItems(string itemType, int amount)
     {
         // Returns weather the player has enough of the given item
         if (itemAmountDict[itemType] >= amount)
@@ -61,13 +61,13 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public void subItems(string itemType, int amount)
+    public void SubItems(string itemType, int amount)
     {
         itemAmountDict[itemType] -= amount;
         UpdateCounters();
     }
 
-    public void removeItem(string itemType)
+    public void RemoveItem(string itemType)
     {
         itemAmountDict[itemType] = 0;
         UpdateCounters();
@@ -81,11 +81,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void clearKeys()
+    public void ClearKeys()
     {
-        removeItem("BronzeKey");
-        removeItem("SilverKey");
-        removeItem("GoldKey");
+        RemoveItem("BronzeKey");
+        RemoveItem("SilverKey");
+        RemoveItem("GoldKey");
     }
 
     public static string IDtoItemName(int id)

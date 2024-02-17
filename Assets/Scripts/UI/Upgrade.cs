@@ -53,7 +53,7 @@ public class Upgrade : MonoBehaviour
     public void SelectUpgrade(int upgrade)
     {
         int cost = int.Parse(currentUpgrades.transform.GetChild(upgrade + 1).Find("Pricing").GetComponent<TextMeshProUGUI>().text);
-        if (inventory.hasItems("Currency", cost))
+        if (inventory.HasItems("Currency", cost))
         {
             selectedUpgrade = upgrade;
             GameObject.Find("Selection").GetComponent<RectTransform>().localPosition = 150 * Vector3.right * selectedUpgrade;
@@ -70,7 +70,7 @@ public class Upgrade : MonoBehaviour
 
     public void ConfirmSelection()
     {
-        if (!inventory.payItems("Currency", selectedCost)) return;
+        if (!inventory.PayItems("Currency", selectedCost)) return;
         int currentLevel = GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel();
         string newWeapon = GameObject.Find("Weapon").GetComponent<Weapon>().currentWeapon.name;
         if (currentLevel == 2)

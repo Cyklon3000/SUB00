@@ -61,11 +61,11 @@ public class ProjectileBehaviour : MonoBehaviour
         {
             if (isGoo)
             {
-                GameObject.Find("StageManager").GetComponent<MonsterTable>().instantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, transform.position);
+                GameObject.Find("StageManager").GetComponent<MonsterTable>().InstantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, transform.position);
                 Loader loader = GameObject.Find("StageManager").GetComponent<Loader>();
                 int roomID = loader.GetRoomIDClosestToPosition(transform.position);
                 GameObject room = GameObject.Find("StageManager").GetComponent<StageGenerator>().rooms[roomID];
-                room.GetComponent<MonsterSpawner>().createdMonster(0);
+                room.GetComponent<MonsterSpawner>().CreatedMonster(0);
             }
             Destroy(gameObject);
         }

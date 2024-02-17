@@ -44,7 +44,7 @@ public class WeaponStats : MonoBehaviour
         Deactivate();
     }
 
-    public void executeTick()
+    public void ExecuteTick()
     {
         //Debug.Log($"Executing tick for {monsters.Count} monsters");
         foreach (MonsterBehaviour monster in monsters)
@@ -54,7 +54,7 @@ public class WeaponStats : MonoBehaviour
         monsters = new HashSet<MonsterBehaviour>();
     }
 
-    public void executeNapalmTick()
+    public void ExecuteNapalmTick()
     {
         foreach (MonsterBehaviour monster in napalmMonsters)
         {

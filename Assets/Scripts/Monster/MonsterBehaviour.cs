@@ -168,8 +168,8 @@ public class MonsterBehaviour : MonoBehaviour
             }
 
             // Spawn clone at random point
-            GameObject.Find("StageManager").GetComponent<MonsterTable>().instantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, randomPosition);
-            room.GetComponent<MonsterSpawner>().createdMonster(0);
+            GameObject.Find("StageManager").GetComponent<MonsterTable>().InstantiateMonster(GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel(), 0, randomPosition);
+            room.GetComponent<MonsterSpawner>().CreatedMonster(0);
             lastSpread += spreadingCooldown;
         }
         FailedSpreading:
@@ -216,9 +216,9 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void LastMonsterCheck()
     {
-        if (room.GetComponent<MonsterSpawner>().isLastMonsterKilled(monsterType))
+        if (room.GetComponent<MonsterSpawner>().IsLastMonsterKilled(monsterType))
         {
-            SpawnKeys(room.GetComponent<RoomKeyManager>().getKeysToDrop());
+            SpawnKeys(room.GetComponent<RoomKeyManager>().GetKeysToDrop());
             room.GetComponent<MonsterSpawner>().isActive = false;
         }
     }
