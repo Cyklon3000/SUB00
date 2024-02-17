@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     public float health = 200f;
 
     private GameObject weapon;
+
+    private Color damageIndicationColor = new Color(1f, 0.5f, 0.5f);
+    private float damageIndicationStrength = 0f;
+    private float damageIndicationDuration = 0.4f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,12 @@ public class PlayerBehaviour : MonoBehaviour
         mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0f));
         Vector3 direction = (mousePos - transform.position).normalized;
         weapon.transform.rotation = Quaternion.Euler(0f, 0f, GetAngleInDegrees(direction) - 90f);
+
+        if (damageIndicationStrength > 0)
+        {
+            damageIndicationStrength = Mathf.Clamp01(damageIndicationStrength - Time.deltaTime / damageIndicationDuration);
+            GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, damageIndicationColor, damageIndicationStrength);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -41,11 +50,21 @@ public class PlayerBehaviour : MonoBehaviour
         Debug.Log($"Took {damage} damage; {health} left");
     }
 
-    private void IndicateDamage()
+    public void ResetHealth()
+    {
+        health = 200f;
+        IndicateDamage(false);
+    }
+
+    private void IndicateDamage(bool isRedGlow = true)
     {
         // Red glow and health bar
         Slider slider = GameObject.Find("HealthBarSlider").GetComponent<Slider>();
         slider.value = health / 200f;
+        if (isRedGlow )
+        {
+            damageIndicationStrength = 1f;
+        }
     }
 
     private void GameOver()

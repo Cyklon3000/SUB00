@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
         DeleteCurrentLevel();
         StageGenerator stageGenerator = GameObject.Find("StageManager").GetComponent<StageGenerator>();
         stageGenerator.GenerateStage(level);
+        GameObject.Find("Player").GetComponent<PlayerBehaviour>().ResetHealth();
         if (!fullRoutine) return;
-        GameObject.Find("Player").GetComponent<PlayerBehaviour>().health = 200f;
         GameObject.Find("Player").GetComponent<Inventory>().clearKeys();
         GameObject.Find("Player").GetComponent<Inventory>().setItems("BronzeKey", 1);
 
