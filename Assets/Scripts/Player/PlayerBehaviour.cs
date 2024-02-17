@@ -24,11 +24,11 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Turns weapon according to mouse position
+        // Turns player according to mouse position
         Vector3 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0f));
         Vector3 direction = (mousePos - transform.position).normalized;
-        weapon.transform.rotation = Quaternion.Euler(0f, 0f, GetAngleInDegrees(direction) - 90f);
+        transform.rotation = Quaternion.Euler(0f, 0f, GetAngleInDegrees(direction) - 90f);
 
         if (damageIndicationStrength > 0)
         {
