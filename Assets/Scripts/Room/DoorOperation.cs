@@ -17,6 +17,11 @@ public class DoorOperation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (doorLevel == -1)
+        {
+            Destroy(gameObject);
+        }
+
         player = GameObject.Find("Player").transform;
         loader = GameObject.Find("StageManager").GetComponent<Loader>();
         room = transform.parent.parent.gameObject;
