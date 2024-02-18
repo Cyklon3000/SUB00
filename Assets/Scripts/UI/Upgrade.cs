@@ -69,7 +69,7 @@ public class Upgrade : MonoBehaviour
 
     public void ConfirmSelection()
     {
-        selectedCost = int.Parse(currentUpgrades.transform.GetChild(selectedUpgrade).Find("Pricing").GetComponent<TextMeshProUGUI>().text);
+        selectedCost = int.Parse(currentUpgrades.transform.GetChild(selectedUpgrade + 1).Find("Pricing").GetComponent<TextMeshProUGUI>().text);
         if (!inventory.PayItems("Currency", selectedCost)) return;
         int currentLevel = GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel();
         string newWeapon = GameObject.Find("Weapon").GetComponent<Weapon>().currentWeapon.name;

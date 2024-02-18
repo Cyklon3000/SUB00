@@ -5,7 +5,6 @@ using UnityEngine;
 using LootLocker.Requests;
 using System.Text.RegularExpressions;
 using UnityEngine.Windows;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
 
 public class ScoreScreen : MonoBehaviour
