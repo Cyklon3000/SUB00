@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public float health = 200f;
+    public float health = 250f;
 
     private GameObject weapon;
 
@@ -57,7 +57,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void ResetHealth()
     {
-        health = 200f;
+        health = 250f;
         IndicateDamage(false);
     }
 
@@ -65,7 +65,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         // Red glow and health bar
         Slider slider = GameObject.Find("HealthBarSlider").GetComponent<Slider>();
-        slider.value = health / 200f;
+        slider.value = health / 250f;
         if (isRedGlow )
         {
             damageIndicationStrength = 1f;
