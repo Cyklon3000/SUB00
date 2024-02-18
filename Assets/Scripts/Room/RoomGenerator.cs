@@ -80,12 +80,19 @@ public class RoomGenerator : MonoBehaviour
         {
             GameObject.Find("Player").transform.position = transform.position;
             GetComponent<MonsterSpawner>().isCharged = false;
+
+            // Titles
+            GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            GameObject titlePrefab = PrefabManager.GetPrefabs().title;
+            GameObject title = Instantiate(titlePrefab);
+            title.transform.parent = transform;
+            title.transform.localPosition = Vector3.zero;
+            title.GetComponent<FloorTitle>().Setup(gameManager.GetLevel());
         }
 
         // Spawn exit hatch
         if (r.isEndRoom)
         {
-            GameObject center = GameObject.Find("Center");
             GameObject exitHatch = Instantiate(PrefabManager.GetPrefabs().exitHatch);
             exitHatch.transform.parent = transform;
             exitHatch.transform.localPosition = Vector3.zero;
