@@ -36,19 +36,21 @@ public class ScoreScreen : MonoBehaviour
         metalMeasured = PlayerPrefs.GetInt("currency");
         timeMeasured = PlayerPrefs.GetFloat("time");
 
+        if (isDead)
+        {
+            endMessage.text = "YOU DIED!";
+        }
+
         metal = $"{metalMeasured}";
 
         string timeMM = $"{(int)(timeMeasured / 60)}";
         string timeSS = $"{(int)(timeMeasured % 60)}".PadLeft(2, '0');
         time = $"{timeMM}:{timeSS}";
 
-        score = $"{CalcScore(metalMeasured, timeMeasured)}";
-
-        if (isDead)
-        {
-            endMessage.text = "YOU DIED!";
+        if (!isDead)
+            score = $"{CalcScore(metalMeasured, timeMeasured)}";
+        else
             score = "0";
-        }
 
         metalAmount.text = metal;
         timeAmount.text = time;
@@ -67,7 +69,7 @@ public class ScoreScreen : MonoBehaviour
     public void SubmitScore()
     {
         SetPlayerName();
-        StartCoroutine(SubmitScoreRoutine(CalcScore(metalMeasured, timeMeasured)));
+        StartCoroutine(SubmitScoreRoutine(isDead ? 0 : CalcScore(metalMeasured, timeMeasured)));
         StartCoroutine(UpdateLeaderboard());
     }
 

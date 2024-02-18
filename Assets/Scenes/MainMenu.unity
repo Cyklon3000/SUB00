@@ -10366,7 +10366,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lab Tile Base by by Robert Brooks
+  m_text: 'Lab Tile Base by Robert Brooks
 
     UI Input Sprites by Kenny'
   m_isRightToLeft: 0
