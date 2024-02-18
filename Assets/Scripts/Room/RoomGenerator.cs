@@ -49,7 +49,11 @@ public class RoomGenerator : MonoBehaviour
         {
             if (!IsRoomBehindWall(i)) continue;
 
-            // Raplace Windows
+            // Remove Window Effect
+            Destroy(walls[i].transform.Find("BlobScrollerLeft").gameObject);
+            Destroy(walls[i].transform.Find("BlobScrollerRight").gameObject);
+
+            // Replace Windows
             Tilemap tilemap = walls[i].transform.Find("Tilemap").GetComponent<Tilemap>();
 
             BoundsInt bounds = tilemap.cellBounds;
@@ -113,7 +117,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private bool IsRoomBehindWall(int wall)
+    public bool IsRoomBehindWall(int wall)
     {
         Vector2Int wallDirection = new Vector2Int((wall == 1) ? 1 : (wall == 3) ? -1 : 0, (wall == 0) ? 1 : (wall == 2) ? -1 : 0);
         //Debug.Log("Room Pos: " + r.position);
