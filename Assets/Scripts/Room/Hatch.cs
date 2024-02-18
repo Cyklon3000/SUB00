@@ -10,13 +10,17 @@ public class Hatch : MonoBehaviour
     private int hatchRoomID;
 
     private float interactionDistance = 1.5f;
-    
+
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     public void Setup()
     {
         player = GameObject.Find("Player");
         loader = GameObject.Find("StageManager").GetComponent<Loader>();
         hatchRoomID = loader.GetRoomIDClosestToPosition(transform.position);
+
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -31,6 +35,7 @@ public class Hatch : MonoBehaviour
         GetComponent<Hints>().ShowEHint();
         // Interaction possible
         if (!Input.GetKey(KeyCode.E)) return;
+        audioManager.hatchInteract.Play();
         // Interact (show menu)
         if (GameObject.Find("GameManager").GetComponent<GameManager>().GetLevel() > 0)
             GameObject.Find("UpgradeUI").GetComponent<Upgrade>().ShowUpgradeUI();

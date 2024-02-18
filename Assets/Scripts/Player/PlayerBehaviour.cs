@@ -13,12 +13,15 @@ public class PlayerBehaviour : MonoBehaviour
     private float damageIndicationStrength = 0f;
     private float damageIndicationDuration = 0.4f;
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
         weapon = GameObject.Find("Weapon");
         weapon.transform.parent = transform;
         weapon.transform.localPosition = Vector3.zero;
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -41,6 +44,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         health -= damage;
         IndicateDamage();
+
+        audioManager.playerHit.Play();
 
         if (health <= 0)
         {

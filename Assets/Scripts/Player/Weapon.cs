@@ -12,6 +12,8 @@ public class Weapon : MonoBehaviour
     private float lastTick = 0f;
     private float lastNapalmTick = 0f;
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,8 @@ public class Weapon : MonoBehaviour
         //Invoke("SwitchToWeaponf", 12f);
         //Invoke("SwitchToWeaponf", 18f);
         //Invoke("SwitchToN", 24f);
+
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame

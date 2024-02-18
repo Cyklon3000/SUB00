@@ -50,6 +50,8 @@ public class MonsterBehaviour : MonoBehaviour
 
     private float timeDialation;
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +60,7 @@ public class MonsterBehaviour : MonoBehaviour
 
     public void Setup()
     {
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         loader = GameObject.Find("StageManager").GetComponent<Loader>();
         int roomID = loader.GetRoomIDClosestToPosition(transform.position);
         room = GameObject.Find("StageManager").GetComponent<StageGenerator>().rooms[roomID];
@@ -239,7 +242,7 @@ public class MonsterBehaviour : MonoBehaviour
     private void Dying(float scaleTargetFaktor)
     {
         // Initiate dying (fade transparent and scale to given scale, delete self at end)
-        // Watch out for children
+        audioManager.monsterDie.Play();
         dyingProgress = 0f;
         sizeValues[0] = transform.localScale.x;
         sizeValues[1] = sizeValues[0] * scaleTargetFaktor;

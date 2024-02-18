@@ -26,6 +26,8 @@ public class Item : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     public void Setup()
     {
@@ -48,6 +50,8 @@ public class Item : MonoBehaviour
                 spriteRenderer.sprite = keySprites[2];
                 break;
         }
+
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -73,6 +77,7 @@ public class Item : MonoBehaviour
         if (pickUpProgress < 1f) return;
 
         player.GetComponent<Inventory>().AddItems(itemType, itemAmount);
+        audioManager.itemPickup.Play();
         Destroy(gameObject);
     }
 

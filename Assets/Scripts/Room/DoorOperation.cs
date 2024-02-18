@@ -13,6 +13,7 @@ public class DoorOperation : MonoBehaviour
     public int doorLevel;
     private float interactionDistance = 1.5f;
     MonsterSpawner monsterSpawner;
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class DoorOperation : MonoBehaviour
         room = transform.parent.parent.gameObject;
         monsterSpawner = room.GetComponent<MonsterSpawner>();
         roomID = room.GetComponent<RoomGenerator>().roomID;
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -44,13 +46,20 @@ public class DoorOperation : MonoBehaviour
                 InteractionCheck();
                 if (isUnlocked)
                 {
-                    GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().openDoor;
+                    if (GetComponent<SpriteRenderer>().sprite != GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().openDoor)
+                    {
+                        audioManager.doorOpen.Play();
+                        GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().openDoor;
+                    }
                     return;
                 }
             }
             else
                 GetComponent<Hints>().HideEHint();
-            GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().closedDoor;
+            if (GetComponent<SpriteRenderer>().sprite != GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().closedDoor)
+            {
+                GetComponent<SpriteRenderer>().sprite = GameObject.Find("PrefabCollector").GetComponent<PrefabManager>().closedDoor;
+            }
         }
     }
 
@@ -72,6 +81,7 @@ public class DoorOperation : MonoBehaviour
             else
             {
                 // Signal Error otherwise
+                audioManager.doorMissingKey.Play();
                 Debug.Log("No fitting key!");
             }
             return;
